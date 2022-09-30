@@ -26,7 +26,7 @@ public class Programa {
 			if(status) {
 				return "autenticado com sucesso!";
 			}else {
-				return "falha na autenticação.";
+				return "falha na autenticaï¿½ï¿½o.";
 			}	
 		});
 		
@@ -42,7 +42,7 @@ public class Programa {
 					req.queryParams("pnome"), 
 					req.queryParams("unome"),
 					req.queryParams("login"),
-					req.queryParams("senha"));
+					req.queryParams("senha"));		
 			
 			UsuarioDAO access = new UsuarioDAO();
 			boolean status = access.addUsuario(newUser);
