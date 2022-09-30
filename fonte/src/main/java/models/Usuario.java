@@ -3,19 +3,17 @@ package models;
 public class Usuario {
 	
 	private String cpf;
-	private String[] telefones;
+	private String telefone;
 	private String pNome, uNome;
 	private String login, senha;
-	private String token;
 	
-	public Usuario(String cpf, String[] telefones, String pNome, String uNome, String login, String senha, String token) {
+	public Usuario(String cpf, String telefone, String pNome, String uNome, String login, String senha) {
 		this.cpf = cpf;
-		this.telefones = telefones;
+		this.telefone = telefone;
 		this.pNome = pNome;
 		this.uNome = uNome;
 		this.login = login;
 		this.senha = senha;
-		this.token = token;
 	}
 	
 	//getters
@@ -23,8 +21,8 @@ public class Usuario {
 		return cpf;
 	}
 	
-	public String[] getTelefones() {
-		return telefones;
+	public String getTelefone() {
+		return telefone;
 	}
 	
 	public String getNome() {
@@ -41,9 +39,5 @@ public class Usuario {
 
 	public String getSenha() {
 		return senha;
-	}
-	
-	public String getToken() {
-		return token;
 	}
 }
