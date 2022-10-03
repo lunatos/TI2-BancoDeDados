@@ -97,11 +97,16 @@ h1,p{
 #Agenda{
 padding: 50px 0;
 }
+#Agenda .btn{
+    border-radius: 30px;
+    margin-left: auto;
+}
 .card-eventos{
     background: #fff;
     margin: 20px 0px;
     margin-right: 20px;
     border-radius: 0px 10px 10px 0px;
+    align-items: center;
 }
 .card-eventos h1{
     color: #50238f;
