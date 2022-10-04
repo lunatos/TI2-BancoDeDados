@@ -1,4 +1,4 @@
-html,body,#login{
+html,body,#retrieve{
     height: 100%;
 }
 body{
@@ -34,7 +34,7 @@ h4{
     color: white;
 }
 h3{
-    font-size: 1.2em;
+    font-size: 1.8em;
     color: white;
 }
 h2{
@@ -49,6 +49,10 @@ a{
 a:hover{
     text-decoration: none;
     color: #8c99d3;
+}
+#return-anchor{
+	padding : 10px;
+	font-size : 2em;
 }
 .Cadastro a{
     font-size: 1em;
