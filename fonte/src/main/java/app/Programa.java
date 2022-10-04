@@ -7,20 +7,23 @@ import models.Usuario;
 
 public class Programa {
 	
-	//determina a id de sessão deste computador
-	private static int sessionKey = -1;
-	
 	public static void main(String[] args) {
 		staticFiles.location("/public");
 		port(4567);
+		
+		//raiz, pÃ¡gina principal do site
 		get("/", (req, res) -> {
+			System.out.println("entrou");
 			ControleSessao cont = new ControleSessao();
-			if(cont.validarSessao(sessionKey)) {
-				return null;
+			boolean status = cont.validarSessao(Integer.parseInt(req.cookie("key")));
+			cont.disconnect();
+			
+			if(status) {
+				return "logado";
 			}else {				
 				res.redirect("index.html");
 				return null;
-			}			
+			}
 		});
 		
 		//pagina de login do site
@@ -29,28 +32,37 @@ public class Programa {
 			return null;
 		});
 		
-		//requisição para autenticar o usuário
+		
+		//requisicao para autenticar o usuario
 		get("/autenticar", (req, res) -> {
 			UsuarioDAO u = new UsuarioDAO();
+			Usuario user = u.getUsuario(req.queryParams("login"), req.queryParams("password"));
 			boolean status = u.autenticar(req.queryParams("login"), req.queryParams("password"));
-			u.disconnect();
+			
 			if(status) {
 				ControleSessao cont = new ControleSessao();
-				sessionKey = cont.iniciarSessao();
+				int key = cont.iniciarSessao(u.getUsuario(req.queryParams("login"), req.queryParams("password")));
+				
+				res.cookie("/", "key", String.valueOf(key), 50000, false);
+				
 				cont.disconnect();
-				return "autenticado com sucesso!";
+				u.disconnect();
+				res.redirect("/");
+				return null;
 			}else {
-				return "falha na autenticacao";
+				u.disconnect();
+				res.redirect("/login");
+				return null;
 			}	
 		});
 		
-		//página de cadastro de usuário
+		//pagina de cadastro de usuario
 		get("/cadastro", (req, res) -> {
 			res.redirect("cadastro.html");
 			return null;
 		});
 		
-		//requisição para enviar o novo usuário para o banco de dados
+		//requisisao para enviar o novo usuario para o banco de dados
 		get("/cadastro/send", (req, res) -> {
 			Usuario newUser = new Usuario
 					(req.queryParams("cpf"), 
@@ -63,9 +75,11 @@ public class Programa {
 			UsuarioDAO access = new UsuarioDAO();
 			boolean status = access.addUsuario(newUser);
 			if(status) {
-				return "cadastro realizado com sucesso";
+				res.redirect("/login");
+				return null;
 			}else {
-				return "falha no cadastro";
+				res.redirect("/cadastro");
+				return null;
 			}
 		});
 	}

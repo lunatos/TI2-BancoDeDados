@@ -50,14 +50,40 @@ public class UsuarioDAO extends DAO {
 			Statement stat = connection.createStatement();
 			String sql = "SELECT * FROM \"public\".\"Usuario\" WHERE cpf = '" + cpf + "'";
 			ResultSet r = stat.executeQuery(sql);
-			user = new Usuario(
-					r.getString("cpf"), 
-					r.getString("telefone"), 
-					r.getString("nome"),
-					r.getString("sobrenome"),
-					r.getString("login"),
-					r.getString("senha")
-					);
+			if(r.next()) {				
+				user = new Usuario(
+						r.getString("cpf"), 
+						r.getString("telefone"), 
+						r.getString("nome"),
+						r.getString("sobrenome"),
+						r.getString("login"),
+						r.getString("senha")
+						);
+			}
+		}catch(SQLException err) {
+			System.out.println(err.getMessage());
+		}
+		
+		return user;
+	}
+	
+	public Usuario getUsuario(String login, String senha) {
+		Usuario user = null;
+		
+		try {
+			Statement stat = connection.createStatement();
+			String sql = "SELECT * FROM \"public\".\"Usuario\" WHERE login = '" + login + "' AND senha = '" + senha + "';";
+			ResultSet r = stat.executeQuery(sql);
+			if(r.next()) {				
+				user = new Usuario(
+						r.getString("cpf"), 
+						r.getString("telefone"), 
+						r.getString("nome"),
+						r.getString("sobrenome"),
+						r.getString("login"),
+						r.getString("senha")
+						);
+			}
 		}catch(SQLException err) {
 			System.out.println(err.getMessage());
 		}
