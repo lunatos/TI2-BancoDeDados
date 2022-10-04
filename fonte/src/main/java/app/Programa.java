@@ -1,9 +1,10 @@
 package app;
 
 import static spark.Spark.*;
-import dao.UsuarioDAO;
-import dao.ControleSessao;
-import models.Usuario;
+
+import dao.*;
+import models.*;
+import services.*;
 
 public class Programa {
 	
@@ -13,18 +14,21 @@ public class Programa {
 		
 		//raiz, página principal do site
 		get("/", (req, res) -> {
-			System.out.println("entrou");
 			ControleSessao cont = new ControleSessao();
-			boolean status = cont.validarSessao(Integer.parseInt(req.cookie("key")));
+			boolean status = false;
+			if(req.cookie("key") != null) {
+				status = cont.validarSessao(Integer.parseInt(req.cookie("key")));
+			}
 			cont.disconnect();
 			
 			if(status) {
-				return "logado";
+				return HomepageController.createPageLogged();
 			}else {				
-				res.redirect("index.html");
-				return null;
+				return HomepageController.createPageUnlogged();
 			}
 		});
+		
+		//--------------------------------------------------------------------------------+
 		
 		//pagina de login do site
 		get("/login", (req, res) -> {
@@ -36,14 +40,15 @@ public class Programa {
 		//requisicao para autenticar o usuario
 		get("/autenticar", (req, res) -> {
 			UsuarioDAO u = new UsuarioDAO();
-			Usuario user = u.getUsuario(req.queryParams("login"), req.queryParams("password"));
 			boolean status = u.autenticar(req.queryParams("login"), req.queryParams("password"));
 			
 			if(status) {
 				ControleSessao cont = new ControleSessao();
 				int key = cont.iniciarSessao(u.getUsuario(req.queryParams("login"), req.queryParams("password")));
 				
-				res.cookie("/", "key", String.valueOf(key), 50000, false);
+				if(req.cookie("key") == null) {					
+					res.cookie("/", "key", String.valueOf(key), 3600, false);
+				}
 				
 				cont.disconnect();
 				u.disconnect();
@@ -55,6 +60,36 @@ public class Programa {
 				return null;
 			}	
 		});
+		
+		//chamada para deslogar um usuario
+		get("/logout", (req, res) -> {
+			res.removeCookie("key");
+			res.redirect("/");
+			return null;
+		});
+		//--------------------------------------------------------------------------------+
+		
+		//pagina para recuperar a senha do usuario
+		get("/recuperar", (req, res) -> {
+			res.redirect("recUsuario.html");
+			return null;
+		});
+		
+		//requisicao para enviar a nova senha
+		get("/recuperar/send", (req, res) -> {
+			String cpf = req.queryParams("cpf");
+			String novaSenha = req.queryParams("novaSenha");
+			
+			UsuarioDAO u = new UsuarioDAO();
+			Usuario novoUsu = u.getUsuario(cpf);
+			novoUsu.setSenha(novaSenha);
+			u.updateUsuario(novoUsu);
+			
+			res.redirect("/login");
+			return null;
+		});
+		
+		//--------------------------------------------------------------------------------+
 		
 		//pagina de cadastro de usuario
 		get("/cadastro", (req, res) -> {
@@ -82,5 +117,7 @@ public class Programa {
 				return null;
 			}
 		});
+		
+		//--------------------------------------------------------------------------------+
 	}
 }

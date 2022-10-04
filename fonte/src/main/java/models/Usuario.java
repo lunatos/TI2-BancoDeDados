@@ -40,4 +40,13 @@ public class Usuario {
 	public String getSenha() {
 		return senha;
 	}
+	
+	//setters
+	public void setLogin(String login) {
+		this.login = login;
+	}
+	
+	public void setSenha(String senha) {
+		this.senha = senha;
+	}
 }

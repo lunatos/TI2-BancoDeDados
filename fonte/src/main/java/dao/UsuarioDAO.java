@@ -43,6 +43,24 @@ public class UsuarioDAO extends DAO {
 		return status;
 	}
 	
+	public boolean updateUsuario(Usuario u) {
+		boolean status = true;
+		
+		try {
+			Statement stat = connection.createStatement();
+			String sql = 	"UPDATE \"public\".\"Usuario\" SET cpf = '" + u.getCpf() + "', telefone = '" + u.getTelefone() + "', " +
+							"nome = '" + u.getNome() + "', sobrenome = '" + u.getSobrenome() + "', login = '" + 
+							u.getLogin() + "', senha = '" + u.getSenha() + "' WHERE cpf = '" + u.getCpf() + "';";
+			stat.executeUpdate(sql);
+			stat.close();
+		}catch(SQLException err) {
+			System.out.println(err.getMessage());
+			status = false;
+		}
+		
+		return status;
+	}
+	
 	public Usuario getUsuario(String cpf) {
 		Usuario user = null;
 		
@@ -92,10 +110,10 @@ public class UsuarioDAO extends DAO {
 	}
 	
 	/**
-	 * Autentica��o de usu�rios para o sistema de login. Recebe o nome de login e a senha.
+	 * Autenticacao de usuarios para o sistema de login. Recebe o nome de login e a senha.
 	 * @param login = nome de login
-	 * @param senha = senha do usu�rio
-	 * @return retorna true se o login e o usu�rio estiverem corretos
+	 * @param senha = senha do usuario
+	 * @return retorna true se o login e o usuario estiverem corretos
 	 * */
 	public boolean autenticar(String login, String senha) {
 		boolean status = true;
