@@ -2,16 +2,16 @@ package models;
 
 import java.util.Date;
 
-public class PoolLocal {
+public class PoolData {
 	private int id;
 	private int qtdVotos;
 	private int qtdOpcoes;
 	private Date tempoLimite;
 	private String info;
-	private String[] opcoes;
+	private Date[] opcoes;
 	private int[] votoOpcao;
-	
-	public PoolLocal(int id, Date tempoLimite, String info, String[] opcoes) {
+
+	public PoolData(int id, Date tempoLimite, String info, Date[] opcoes) {
 		this.id = id;
 		this.qtdVotos = 0;
 		this.qtdOpcoes = opcoes.length;
@@ -20,9 +20,9 @@ public class PoolLocal {
 		this.opcoes = opcoes;
 		this.votoOpcao = new int[opcoes.length];
 	}
-	
+
 	/**
-	 * {@summary Adiciona um voto em uma das opcoes da pool.}
+	 * {@summary Adiciona um voto em uma das op��es da pool.}
 	 * @param opcao = opcao a,b,c ... da pool.
 	 * */
 	public void addVoto(int opcao) {
@@ -30,9 +30,9 @@ public class PoolLocal {
 		qtdVotos++;
 		votoOpcao[opcao] += 1;
 	}
-	
+	//getters
 	/**
-	 * Retorna o indice da opcao com mais votos na pool.
+	 * Retorna o �ndice da op��o com mais votos na pool.
 	 * */
 	public int getResultado() {
 		int maior = -1;
@@ -43,20 +43,20 @@ public class PoolLocal {
 		}
 		return maior;
 	}
-	
+
 	public int getId() {
 		return id;
 	}
-	
-	public String getOpcao(int i) {
+
+	public Date getOpcao(int i) {
 		if(i >= votoOpcao.length) throw new ArrayIndexOutOfBoundsException();
 		return opcoes[i];
 	}
-	
+
 	public Date getData() {
 		return tempoLimite;
 	}
-	
+
 	public int getQtdVotos() {
 		return qtdVotos;
 	}
@@ -69,7 +69,7 @@ public class PoolLocal {
 		return info;
 	}
 
-	public String[] getOpcoes() {
+	public Date[] getOpcoes() {
 		return opcoes;
 	}
 
