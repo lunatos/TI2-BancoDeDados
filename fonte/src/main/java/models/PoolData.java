@@ -2,16 +2,16 @@ package models;
 
 import java.util.Date;
 
-public class PoolLocal {
+public class PoolData {
 	private int id;
 	private int qtdVotos;
 	private int qtdOpcoes;
 	private Date tempoLimite;
 	private String info;
-	private String[] opcoes;
+	private Date[] opcoes;
 	private int[] votoOpcao;
 	
-	public PoolLocal(int id, Date tempoLimite, String info, String[] opcoes) {
+	public PoolData(int id, Date tempoLimite, String info, Date[] opcoes) {
 		this.id = id;
 		this.qtdVotos = 0;
 		this.qtdOpcoes = opcoes.length;
@@ -30,7 +30,6 @@ public class PoolLocal {
 		qtdVotos++;
 		votoOpcao[opcao] += 1;
 	}
-	
 	//getters
 	/**
 	 * Retorna o �ndice da op��o com mais votos na pool.
@@ -70,12 +69,11 @@ public class PoolLocal {
 		return info;
 	}
 	
-	public String[] getOpcoes() {
+	public Date[] getOpcoes() {
 		return opcoes;
 	}
 	
 	public int[] getVotoOpcao() {
 		return votoOpcao;
 	}
-	
 }
