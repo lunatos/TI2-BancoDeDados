@@ -2,7 +2,6 @@ package dao;
 
 import java.sql.*;
 import java.util.Random;
-
 import models.Usuario;
 
 public class ControleSessao extends DAO {
@@ -91,5 +90,46 @@ public class ControleSessao extends DAO {
 			System.out.println(err.getMessage());
 		}
 		return status;
+	}
+
+	/**
+	 * Recupera o usuario logado no momento
+	 * @param key = Chave da sessao
+	 * */
+	public Usuario recuperarUsuario(int key) {
+		Usuario user = null;
+		
+		try {
+			//primeira consulta
+			Statement stat1 = connection.createStatement();
+			String sql_session = "SELECT * FROM \"public\".\"Sessao\" WHERE id = " + key;
+			ResultSet r1 = stat1.executeQuery(sql_session);
+			String cpf = "";
+			
+			if(r1.next()) {
+				cpf = r1.getString("usuario");
+			}
+			stat1.close();
+			
+			//segunda consulta
+			Statement stat2 = connection.createStatement();
+			String sql = "SELECT * FROM \"public\".\"Usuario\" WHERE cpf = '" + cpf + "'";
+			ResultSet r2 = stat2.executeQuery(sql);
+			if(r2.next()) {				
+				user = new Usuario(
+						r2.getString("cpf"), 
+						r2.getString("telefone"), 
+						r2.getString("nome"),
+						r2.getString("sobrenome"),
+						r2.getString("login"),
+						r2.getString("senha")
+						);
+			}
+			stat2.close();
+		}catch(SQLException err) {
+			System.out.println(err.getMessage());
+		}
+		
+		return user;
 	}
 }

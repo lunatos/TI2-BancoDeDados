@@ -12,14 +12,19 @@ public class Programa {
 		staticFiles.location("/public");
 		port(4567);
 		
+		//PÁGINA PRINCIPAL
+		//--------------------------------------------------------------------------------+
+		
 		//raiz, página principal do site
 		get("/", (req, res) -> {
+			//testa se o usuário está logado
 			ControleSessao cont = new ControleSessao();
 			boolean status = false;
 			if(req.cookie("key") != null) {
 				status = cont.validarSessao(Integer.parseInt(req.cookie("key")));
 			}
 			cont.disconnect();
+			//
 			
 			if(status) {
 				return HomepageController.createPageLogged();
@@ -28,6 +33,8 @@ public class Programa {
 			}
 		});
 		
+		
+		//LOGIN E CONTROLE DE SESSÃO
 		//--------------------------------------------------------------------------------+
 		
 		//pagina de login do site
@@ -67,6 +74,9 @@ public class Programa {
 			res.redirect("/");
 			return null;
 		});
+		
+		
+		//RECUPERAR A SENHA
 		//--------------------------------------------------------------------------------+
 		
 		//pagina para recuperar a senha do usuario
@@ -89,6 +99,8 @@ public class Programa {
 			return null;
 		});
 		
+		
+		//CADASTRO DE USUÁRIOS
 		//--------------------------------------------------------------------------------+
 		
 		//pagina de cadastro de usuario
@@ -97,7 +109,7 @@ public class Programa {
 			return null;
 		});
 		
-		//requisisao para enviar o novo usuario para o banco de dados
+		//requisicao para enviar o novo usuario para o banco de dados
 		get("/cadastro/send", (req, res) -> {
 			Usuario newUser = new Usuario
 					(req.queryParams("cpf"), 
@@ -118,6 +130,58 @@ public class Programa {
 			}
 		});
 		
+		
+		//CRIACAO DE EVENTOS E MANIPULACAO
 		//--------------------------------------------------------------------------------+
+		
+		get("/criarEvento", (req, res) -> {
+			//testa se o usuário está logado
+			ControleSessao cont = new ControleSessao();
+			boolean status = false;
+			if(req.cookie("key") != null) {
+				status = cont.validarSessao(Integer.parseInt(req.cookie("key")));
+			}
+			cont.disconnect();
+			//
+			
+			if(status) {				
+				res.redirect("criarEvento.html");
+			}else {
+				res.redirect("/login");
+			}
+			return null;
+		});
+		
+		get("/criarEvento/send", (req, res) -> {
+			//objetos de acesso
+			ControleSessao contr = new ControleSessao();
+			EventoDAO eDao = new EventoDAO();
+			Usuario user = contr.recuperarUsuario(Integer.parseInt(req.cookie("key")));
+			Evento evento = new Evento(
+					eDao.gerarID(), 
+					user.getCpf(),
+					req.queryParams("nome"),
+					Integer.parseInt(req.queryParams("maxP")),
+					req.queryParams("data"),
+					req.queryParams("horario"),
+					req.queryParams("endereco"),
+					req.queryParams("descricao"),
+					Boolean.valueOf(req.queryParams("publico"))
+					);
+			//
+			//inserindo o evento no banco de dados
+			eDao.createEvento(evento);
+			evento = null;
+			user = null;
+			
+			eDao.disconnect();
+			contr.disconnect();
+			return "criou evento";
+		});
+		
+		get("/evento/:id", (req, res) -> {
+			int id = Integer.parseInt(req.params("id"));
+			return PaginaEvento.createPaginaEvento(id);
+		});
 	}
 }

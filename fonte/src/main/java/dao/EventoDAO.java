@@ -1,22 +1,50 @@
 package dao;
 
 import java.sql.*;
-
+import java.util.Random;
+import java.util.ArrayList;
+import java.util.List;
 import models.Evento;
+
 
 public class EventoDAO extends DAO {
 	public EventoDAO() {
 		super();
 	}
 	
+	/**
+	 * Cria uma id para a sessao do usuario.
+	 * */
+	public int gerarID() {
+		Random rand = new Random();
+		int id = -1;
+		
+		boolean valid = false;
+		while(!valid) {
+			id = rand.nextInt(9000) + 1000;
+			try {
+				Statement stat = connection.createStatement();
+				String sql = "SELECT * FROM \"public\".\"Evento\" WHERE id = " + id + ";";
+				ResultSet rs = stat.executeQuery(sql);
+				if(!rs.next()) {
+					valid = true;
+				}
+				stat.close();
+			}catch(SQLException err) {
+				System.out.println(err.getMessage());
+			}
+		}
+		return id;
+	}
+	
 	public boolean createEvento(Evento evento) {
 		boolean status = true;
 		try {
 			Statement stat = connection.createStatement();
-			String sql = 	"INSERT INTO \"public\".\"Evento\" (id, dono, nome, qtdParticipantes, maxParticipantes, data, endereco, descricao)" +
+			String sql = 	"INSERT INTO \"public\".\"Evento\" (id, dono, nome, qtd_participantes, max_participantes, data, horario, endereco, descricao, publico)" +
 							"VALUES (" + evento.getId() + ", '" + evento.getDono() + "', '" + evento.getNome() + "', " +
 							evento.getQtdParticipantes() + ", " + evento.getMaxParticipantes() + ", '" + evento.getData().toString() + "', '" +
-							evento.getEndereco() + "', '" + evento.getDescricao() + "');";
+							evento.getHorario() + "', '" + evento.getEndereco() + "', '" + evento.getDescricao() + "', " + evento.getPrivacidade() + ");";
 			stat.executeUpdate(sql);
 			stat.close();
 		}catch(SQLException err) {
@@ -31,10 +59,11 @@ public class EventoDAO extends DAO {
 		try {
 			Statement stat = connection.createStatement();
 			String sql = 	"UPDATE \"public\".\"Evento\" SET id = " + newEvento.getId() + ", dono = '" +
-							newEvento.getDono() + "', nome = '" + newEvento.getNome() + "', qtdParticipantes = " +
-							newEvento.getQtdParticipantes() + ", maxParticipantes = " + newEvento.getMaxParticipantes() +
-							", data = '" + newEvento.getData().toString() + "', endereco = '" + newEvento.getEndereco() +
-							"', descricao = '" + newEvento.getDescricao() +"' WHERE id = " + newEvento.getId() + ";";
+							newEvento.getDono() + "', nome = '" + newEvento.getNome() + "', qtd_participantes = " +
+							newEvento.getQtdParticipantes() + ", max_participantes = " + newEvento.getMaxParticipantes() +
+							", data = '" + newEvento.getData().toString() +  "', horario = '" + newEvento.getHorario() + 
+							"', endereco = '" + newEvento.getEndereco() +
+							"', descricao = '" + newEvento.getDescricao() + "', publico = " + newEvento.getPrivacidade() +  "WHERE id = " + newEvento.getId() + ";";
 			stat.executeUpdate(sql);
 			stat.close();
 		}catch(SQLException err) {
@@ -56,5 +85,59 @@ public class EventoDAO extends DAO {
 			status = false;
 		}
 		return status;
+	}
+	
+	public Evento getEvento(int id) {
+		Evento evento = null;
+		try {
+			Statement stat = connection.createStatement();
+			String sql = "SELECT * FROM \"public\".\"Evento\" WHERE id = " + id + ";";
+			ResultSet rs = stat.executeQuery(sql);
+			if(rs.next()) {
+				evento = new Evento(
+						id,
+						rs.getString("dono"),
+						rs.getString("nome"),
+						rs.getInt("qtd_participantes"),
+						rs.getInt("max_participantes"),
+						rs.getString("data"),
+						rs.getString("horario"),
+						rs.getString("endereco"),
+						rs.getString("descricao"),
+						rs.getBoolean("publico")
+						);
+			}
+		}catch(SQLException err) {
+			System.out.println(err.getMessage());
+		}
+		return evento;
+	}
+	
+	public List<Evento> getAllEventos(){
+		List<Evento> lista = new ArrayList<Evento>();
+		
+		try {
+			Statement stat = connection.createStatement();
+			String sql = "SELECT * FROM \"public\".\"Evento\"";
+			ResultSet rs = stat.executeQuery(sql);
+			while(rs.next()) {
+				Evento evento = new Evento(
+						rs.getInt("id"),
+						rs.getString("dono"),
+						rs.getString("nome"),
+						rs.getInt("qtd_participantes"),
+						rs.getInt("max_participantes"),
+						rs.getString("data"),
+						rs.getString("horario"),
+						rs.getString("endereco"),
+						rs.getString("descricao"),
+						rs.getBoolean("publico")
+						);
+				lista.add(evento);
+			}
+		}catch(SQLException err) {
+			System.out.println(err.getMessage());
+		}
+		return lista;
 	}
 }
