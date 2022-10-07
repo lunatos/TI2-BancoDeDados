@@ -13,7 +13,7 @@ public class EventoDAO extends DAO {
 	}
 	
 	/**
-	 * Cria uma id para a sessao do usuario.
+	 * Cria uma id para o evento.
 	 * */
 	public int gerarID() {
 		Random rand = new Random();
@@ -63,7 +63,7 @@ public class EventoDAO extends DAO {
 							newEvento.getQtdParticipantes() + ", max_participantes = " + newEvento.getMaxParticipantes() +
 							", data = '" + newEvento.getData().toString() +  "', horario = '" + newEvento.getHorario() + 
 							"', endereco = '" + newEvento.getEndereco() +
-							"', descricao = '" + newEvento.getDescricao() + "', publico = " + newEvento.getPrivacidade() +  "WHERE id = " + newEvento.getId() + ";";
+							"', descricao = '" + newEvento.getDescricao() + "', publico = " + newEvento.getPrivacidade() +  " WHERE id = " + newEvento.getId() + ";";
 			stat.executeUpdate(sql);
 			stat.close();
 		}catch(SQLException err) {

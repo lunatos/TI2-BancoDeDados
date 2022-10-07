@@ -19,15 +19,18 @@ public class Programa {
 		get("/", (req, res) -> {
 			//testa se o usuário está logado
 			ControleSessao cont = new ControleSessao();
+			Usuario user = null;
 			boolean status = false;
+			
 			if(req.cookie("key") != null) {
 				status = cont.validarSessao(Integer.parseInt(req.cookie("key")));
+				user = cont.recuperarUsuario(Integer.parseInt(req.cookie("key")));
 			}
 			cont.disconnect();
 			//
 			
 			if(status) {
-				return HomepageController.createPageLogged();
+				return HomepageController.createPageLogged(user);
 			}else {				
 				return HomepageController.createPageUnlogged();
 			}
@@ -121,6 +124,8 @@ public class Programa {
 			
 			UsuarioDAO access = new UsuarioDAO();
 			boolean status = access.addUsuario(newUser);
+			newUser = null;
+			
 			if(status) {
 				res.redirect("/login");
 				return null;
@@ -133,7 +138,7 @@ public class Programa {
 		
 		//CRIACAO DE EVENTOS E MANIPULACAO
 		//--------------------------------------------------------------------------------+
-		
+		//pagina para criacao de eventos
 		get("/criarEvento", (req, res) -> {
 			//testa se o usuário está logado
 			ControleSessao cont = new ControleSessao();
@@ -152,6 +157,7 @@ public class Programa {
 			return null;
 		});
 		
+		//requisicao que envia o evento para o banco de dados
 		get("/criarEvento/send", (req, res) -> {
 			//objetos de acesso
 			ControleSessao contr = new ControleSessao();
@@ -179,9 +185,49 @@ public class Programa {
 			return "criou evento";
 		});
 		
+		//pagina que exibe o evento
 		get("/evento/:id", (req, res) -> {
 			int id = Integer.parseInt(req.params("id"));
 			return PaginaEvento.createPaginaEvento(id);
+		});
+		
+		//requisicao para participar de um evento
+		get("/entrarEvento/:id", (req, res) ->{
+			//testa se o usuário está logado
+			ControleSessao cont = new ControleSessao();
+			boolean status = false;
+			if(req.cookie("key") != null) {
+				status = cont.validarSessao(Integer.parseInt(req.cookie("key")));
+			}
+			cont.disconnect();
+			//
+			
+			if(status) {				
+				ControleSessao contS = new ControleSessao();
+				ControleEvento contE = new ControleEvento();
+				EventoDAO eDao = new EventoDAO();
+				
+				Usuario u = contS.recuperarUsuario(Integer.parseInt(req.cookie("key")));
+				int eventoId = Integer.parseInt(req.params("id"));
+				Evento e = eDao.getEvento(eventoId);
+				
+				//checa se o usuario nao esta participando do evento
+				if(!contE.checarParticipacao(eventoId, u.getCpf())) {					
+					contE.adicionarRelacao(eventoId, u.getCpf());
+					e.addParticipante();
+					eDao.updateEvento(e);
+					
+					u = null;
+					eDao.disconnect();
+					contS.disconnect();
+					contE.disconnect();
+					
+				}
+				res.redirect("/");
+			}else {
+				res.redirect("/login");
+			}
+			return null;
 		});
 	}
 }

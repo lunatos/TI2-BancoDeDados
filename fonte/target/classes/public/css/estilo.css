@@ -125,6 +125,15 @@ padding: 50px 0;
 #user-view i{
 	color : #50238f;
 }
+.user-menu{
+	background-color: white;
+	position: absolute;
+	
+	padding: 2% 3%;
+	border-radius: 10px;
+	left: 80vw;
+	top: 15vh;
+}
 
 /*footer*/
 
