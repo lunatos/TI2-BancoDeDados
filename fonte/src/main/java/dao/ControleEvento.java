@@ -2,6 +2,13 @@ package dao;
 
 import java.sql.*;
 import java.util.Random;
+import java.util.ArrayList;
+import java.util.List;
+
+import models.Usuario;
+import models.Evento;
+import dao.UsuarioDAO;
+import dao.EventoDAO;
 
 public class ControleEvento extends DAO{
 	public ControleEvento() {
@@ -69,7 +76,7 @@ public class ControleEvento extends DAO{
 		boolean status = false;
 		try {
 			Statement stat = connection.createStatement();
-			String sql = "SELECT * FROM \"public\".\"ControladorEvento\" WHERE evento = " + chaveEvento + ";";
+			String sql = "SELECT * FROM \"public\".\"ControladorEvento\" WHERE evento = " + chaveEvento + " AND participante = '" + cpf + "';";
 			ResultSet rs = stat.executeQuery(sql);
 			if(rs.next()) {
 				status = true;
@@ -78,5 +85,36 @@ public class ControleEvento extends DAO{
 			System.out.println(err.getMessage());
 		}
 		return status;
+	}
+	
+	/**
+	 * Recupera todos os participantes de um evento
+	 * @return Retorna uma lista com todos os usuarios que participam do evento
+	 * */
+	public List<Usuario> recuperarParticipantes(int chaveEvento){
+		List<Usuario> usuarios = new ArrayList<Usuario>();
+		List<String> cpfs = new ArrayList<String>();
+		UsuarioDAO uDao = new UsuarioDAO();
+		
+		//recupera os participantes
+		try {
+			Statement stat = connection.createStatement();
+			String sql = "SELECT * FROM \"public\".\"ControladorEvento\" WHERE evento = " + chaveEvento + ";";
+			ResultSet rs = stat.executeQuery(sql);
+			while(rs.next()) {
+				cpfs.add(rs.getString("participante"));
+			}
+			stat.close();
+		}catch(SQLException err) {
+			System.out.println(err.getMessage());
+		}
+		
+		//cria os usuarios dos cpfs coletados
+		for(int i = 0; i < cpfs.size(); i++) {
+			Usuario newUser = uDao.getUsuario(cpfs.get(i));
+			usuarios.add(newUser);
+		}
+		
+		return usuarios;
 	}
 }

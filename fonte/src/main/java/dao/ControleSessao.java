@@ -3,6 +3,10 @@ package dao;
 import java.sql.*;
 import java.util.Random;
 import models.Usuario;
+import spark.Request;
+import spark.Response;
+
+import static spark.Spark.*;
 
 public class ControleSessao extends DAO {
 	public ControleSessao() {
@@ -76,8 +80,13 @@ public class ControleSessao extends DAO {
 	}
 	
 	
-	public boolean validarSessao(int id) {
+	public boolean validarSessao(Request req, Response res) {
 		boolean status = false;
+		int id = -1;
+		if(req.cookie("key") != null) {			
+			id = Integer.parseInt(req.cookie("key"));
+		}
+		
 		try {
 			Statement stat = connection.createStatement();
 			String sql = "SELECT * FROM \"public\".\"Sessao\" WHERE id = " + id + ";";

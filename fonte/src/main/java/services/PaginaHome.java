@@ -11,7 +11,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import dao.ControleSessao;
 
-public class HomepageController {
+public class PaginaHome {
 
 	/**
 	 * Cria os cards dos eventos.

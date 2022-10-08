@@ -16,25 +16,7 @@ public class Programa {
 		//--------------------------------------------------------------------------------+
 		
 		//raiz, página principal do site
-		get("/", (req, res) -> {
-			//testa se o usuário está logado
-			ControleSessao cont = new ControleSessao();
-			Usuario user = null;
-			boolean status = false;
-			
-			if(req.cookie("key") != null) {
-				status = cont.validarSessao(Integer.parseInt(req.cookie("key")));
-				user = cont.recuperarUsuario(Integer.parseInt(req.cookie("key")));
-			}
-			cont.disconnect();
-			//
-			
-			if(status) {
-				return HomepageController.createPageLogged(user);
-			}else {				
-				return HomepageController.createPageUnlogged();
-			}
-		});
+		get("/", (req, res) -> HomeService.buildHomepage(req, res));
 		
 		
 		//LOGIN E CONTROLE DE SESSÃO
@@ -49,26 +31,8 @@ public class Programa {
 		
 		//requisicao para autenticar o usuario
 		get("/autenticar", (req, res) -> {
-			UsuarioDAO u = new UsuarioDAO();
-			boolean status = u.autenticar(req.queryParams("login"), req.queryParams("password"));
-			
-			if(status) {
-				ControleSessao cont = new ControleSessao();
-				int key = cont.iniciarSessao(u.getUsuario(req.queryParams("login"), req.queryParams("password")));
-				
-				if(req.cookie("key") == null) {					
-					res.cookie("/", "key", String.valueOf(key), 3600, false);
-				}
-				
-				cont.disconnect();
-				u.disconnect();
-				res.redirect("/");
-				return null;
-			}else {
-				u.disconnect();
-				res.redirect("/login");
-				return null;
-			}	
+			AutenticarService.autenticarUsuario(req, res);
+			return null;
 		});
 		
 		//chamada para deslogar um usuario
@@ -90,15 +54,7 @@ public class Programa {
 		
 		//requisicao para enviar a nova senha
 		get("/recuperar/send", (req, res) -> {
-			String cpf = req.queryParams("cpf");
-			String novaSenha = req.queryParams("novaSenha");
-			
-			UsuarioDAO u = new UsuarioDAO();
-			Usuario novoUsu = u.getUsuario(cpf);
-			novoUsu.setSenha(novaSenha);
-			u.updateUsuario(novoUsu);
-			
-			res.redirect("/login");
+			RecuperarService.enviarInfo(req, res);
 			return null;
 		});
 		
@@ -114,40 +70,20 @@ public class Programa {
 		
 		//requisicao para enviar o novo usuario para o banco de dados
 		get("/cadastro/send", (req, res) -> {
-			Usuario newUser = new Usuario
-					(req.queryParams("cpf"), 
-					req.queryParams("telefone"),
-					req.queryParams("pnome"), 
-					req.queryParams("unome"),
-					req.queryParams("login"),
-					req.queryParams("senha"));		
-			
-			UsuarioDAO access = new UsuarioDAO();
-			boolean status = access.addUsuario(newUser);
-			newUser = null;
-			
-			if(status) {
-				res.redirect("/login");
-				return null;
-			}else {
-				res.redirect("/cadastro");
-				return null;
-			}
+			CadastroService.enviarInfo(req, res);
+			return null;
 		});
 		
 		
 		//CRIACAO DE EVENTOS E MANIPULACAO
 		//--------------------------------------------------------------------------------+
+		
 		//pagina para criacao de eventos
 		get("/criarEvento", (req, res) -> {
 			//testa se o usuário está logado
 			ControleSessao cont = new ControleSessao();
-			boolean status = false;
-			if(req.cookie("key") != null) {
-				status = cont.validarSessao(Integer.parseInt(req.cookie("key")));
-			}
+			boolean status = cont.validarSessao(req, res);
 			cont.disconnect();
-			//
 			
 			if(status) {				
 				res.redirect("criarEvento.html");
@@ -159,30 +95,8 @@ public class Programa {
 		
 		//requisicao que envia o evento para o banco de dados
 		get("/criarEvento/send", (req, res) -> {
-			//objetos de acesso
-			ControleSessao contr = new ControleSessao();
-			EventoDAO eDao = new EventoDAO();
-			Usuario user = contr.recuperarUsuario(Integer.parseInt(req.cookie("key")));
-			Evento evento = new Evento(
-					eDao.gerarID(), 
-					user.getCpf(),
-					req.queryParams("nome"),
-					Integer.parseInt(req.queryParams("maxP")),
-					req.queryParams("data"),
-					req.queryParams("horario"),
-					req.queryParams("endereco"),
-					req.queryParams("descricao"),
-					Boolean.valueOf(req.queryParams("publico"))
-					);
-			//
-			//inserindo o evento no banco de dados
-			eDao.createEvento(evento);
-			evento = null;
-			user = null;
-			
-			eDao.disconnect();
-			contr.disconnect();
-			return "criou evento";
+			EventoService.criarEvento(req, res);
+			return null;
 		});
 		
 		//pagina que exibe o evento
@@ -195,38 +109,31 @@ public class Programa {
 		get("/entrarEvento/:id", (req, res) ->{
 			//testa se o usuário está logado
 			ControleSessao cont = new ControleSessao();
-			boolean status = false;
-			if(req.cookie("key") != null) {
-				status = cont.validarSessao(Integer.parseInt(req.cookie("key")));
-			}
+			boolean status = cont.validarSessao(req, res);
 			cont.disconnect();
-			//
-			
+
 			if(status) {				
-				ControleSessao contS = new ControleSessao();
-				ControleEvento contE = new ControleEvento();
-				EventoDAO eDao = new EventoDAO();
-				
-				Usuario u = contS.recuperarUsuario(Integer.parseInt(req.cookie("key")));
-				int eventoId = Integer.parseInt(req.params("id"));
-				Evento e = eDao.getEvento(eventoId);
-				
-				//checa se o usuario nao esta participando do evento
-				if(!contE.checarParticipacao(eventoId, u.getCpf())) {					
-					contE.adicionarRelacao(eventoId, u.getCpf());
-					e.addParticipante();
-					eDao.updateEvento(e);
-					
-					u = null;
-					eDao.disconnect();
-					contS.disconnect();
-					contE.disconnect();
-					
+				try {
+					EventoService.entrarEvento(req, res);
+				}catch(Exception err) {
+					System.out.println("Evento lotado!");
 				}
-				res.redirect("/");
 			}else {
 				res.redirect("/login");
 			}
+			return null;
+		});
+		
+		//CHAT DOS EVENTOS
+		//--------------------------------------------------------------------------------+
+		
+		get("/chat/:id", (req, res) -> {
+			return PaginaChat.createChat(req, res);
+		});
+		
+		get("/chat/:id/send", (req, res) -> {
+			ChatService.enviarMensagem(req, res);
+			res.redirect("/chat/" + req.params("id"));
 			return null;
 		});
 	}
