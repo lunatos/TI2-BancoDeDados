@@ -87,4 +87,33 @@ public class Evento {
 	public boolean getPrivacidade() {
 		return publico;
 	}
+	
+	//setters
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
+	
+	public void setEndereco(String endereco) {
+		this.endereco = endereco;
+	}
+	
+	public void setDescricao(String descricao) {
+		this.descricao = descricao;
+	}
+	
+	public void setMaxParticipantes(int maxParticipantes) {
+		this.maxParticipantes = maxParticipantes;
+	}
+	
+	public void setData(String data) {
+		this.data = data;
+	}
+	
+	public void setHorario(String horario) {
+		this.horario = horario;
+	}
+
+	public void setPrivacidade(boolean publico) {
+		this.publico = publico;
+	}
 }

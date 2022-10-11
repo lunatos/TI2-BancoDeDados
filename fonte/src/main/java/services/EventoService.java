@@ -36,6 +36,7 @@ public class EventoService {
 		
 		eDao.disconnect();
 		contr.disconnect();
+		res.redirect("/");
 	}
 	
 	/**
@@ -63,5 +64,27 @@ public class EventoService {
 			
 		}
 		res.redirect("/");
+	}
+	
+	public static void atualizarEvento(Request req, Response res) {
+		EventoDAO eDao = new EventoDAO();
+		Evento e = eDao.getEvento(Integer.parseInt(req.params("id")));
+		
+		e.setNome(req.queryParams("name"));
+		e.setData(req.queryParams("date"));
+		e.setHorario(req.queryParams("time"));
+		e.setMaxParticipantes(Integer.parseInt(req.queryParams("maxP")));
+		e.setDescricao(req.queryParams("info"));
+		
+		eDao.updateEvento(e);
+		eDao.disconnect();
+		res.redirect("/meusEventos");
+	}
+	
+	public static void deletarEvento(Request req, Response res) {
+		EventoDAO eDao = new EventoDAO();
+		int id = Integer.parseInt(req.params("id"));
+		eDao.deleteEvento(id);
+		res.redirect("/meusEventos");
 	}
 }

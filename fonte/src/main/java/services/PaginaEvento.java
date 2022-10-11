@@ -33,6 +33,7 @@ public class PaginaEvento {
 		String titulo = "<h1>" + e.getNome() + "</h1>\n";
 		String tipo = "<h2>Tipo: " + (e.getPrivacidade() ? "Público" : "Privado") + "</h2>\n";
 		String linkChat = "<a href=\"/chat/" + e.getId() + "\">Chat</a>";
+		String linkConfirmados = "<a href=\"/confirmados/" + e.getId() + "\">Lista de confirmados</a>";
 		String desc = "<p>" + e.getDescricao() + "</p>\n";
 		String data = "<h4>Data:" + e.getData() + "</h4>\n";
 		String hora = "<h4>Horário:" + e.getHorario() + "</h4>\n";
@@ -42,6 +43,7 @@ public class PaginaEvento {
 		page = page.replaceFirst("<NOME-EVENTO>",titulo);
 		page = page.replaceFirst("<TIPO>",tipo);
 		page = page.replaceFirst("<LINK-CHAT>", linkChat);
+		page = page.replaceFirst("<LINK-CONFIRMADOS>", linkConfirmados);
 		page = page.replaceFirst("<DESC>",desc);
 		page = page.replaceFirst("<DATA>", data);
 		page = page.replaceFirst("<HORA>",hora);
