@@ -127,14 +127,101 @@ public class Programa {
 		//CHAT DOS EVENTOS
 		//--------------------------------------------------------------------------------+
 		
+		//pagina do chat do evento
 		get("/chat/:id", (req, res) -> {
-			return PaginaChat.createChat(req, res);
+			//testa se o usuário está logado
+			ControleSessao cont = new ControleSessao();
+			boolean status = cont.validarSessao(req, res);
+			cont.disconnect();
+			
+			if(status) {
+				return PaginaChat.createChat(req, res);
+			}else {
+				res.redirect("/login");
+				return null;
+			}
 		});
 		
+		//requisicao para enviar uma mensagem para o chat
 		get("/chat/:id/send", (req, res) -> {
 			ChatService.enviarMensagem(req, res);
 			res.redirect("/chat/" + req.params("id"));
 			return null;
 		});
+		
+		//AGENDA
+		//--------------------------------------------------------------------------------+
+		
+		//pagina da agenda do usuario
+		get("/agenda", (req, res) -> {
+			//testa se o usuário está logado
+			ControleSessao cont = new ControleSessao();
+			boolean status = cont.validarSessao(req, res);
+			cont.disconnect();
+			
+			if(status) {
+				return PaginaAgenda.criarAgenda(req, res);
+			}else {
+				res.redirect("/login");
+				return null;
+			}
+		});
+	
+		//LISTA DE EVENTOS
+		//--------------------------------------------------------------------------------+
+		
+		//pagina que lista todos os eventos
+		get("/listaEventos", (req, res) -> {
+			//testa se o usuário está logado
+			ControleSessao cont = new ControleSessao();
+			boolean status = cont.validarSessao(req, res);
+			cont.disconnect();
+			
+			if(status) {
+				return PaginaListaEventos.createListaEventos(req, res);
+			}else {
+				res.redirect("/login");
+				return null;
+			}
+		});
+		
+		//pagina que lista os eventos criados pelo usuario
+		get("/meusEventos", (req, res) -> {
+			//testa se o usuário está logado
+			ControleSessao cont = new ControleSessao();
+			boolean status = cont.validarSessao(req, res);
+			cont.disconnect();
+			
+			if(status) {
+				return PaginaMeusEventos.createMeusEventos(req, res);
+			}else {
+				res.redirect("/login");
+				return null;
+			}
+		});
+		
+		//requsicao que deleta o evento selecionado
+		get("/deleteEvento/:id", (req, res) -> {
+			EventoService.deletarEvento(req, res);
+			return null;
+		});
+		
+		get("/updateEvento/:id", (req, res) -> PaginaUpdateEvento.createUpdateEvento(req, res));
+		
+		get("/sendEvento/:id", (req, res) -> {
+			EventoService.atualizarEvento(req, res);
+			return null;
+		});
+		
+		//LISTA DE CONFIRMADOS
+		//--------------------------------------------------------------------------------+
+
+		get("/confirmados/:id", (req, res) -> PaginaConfirmados.createPaginaConfirmados(req, res));
+		
+		get("/sendConfirmacao/:id", (req, res) -> {
+			ConfirmarService.confirmarParticip(req, res);
+			return null;
+		});
+		
 	}
 }

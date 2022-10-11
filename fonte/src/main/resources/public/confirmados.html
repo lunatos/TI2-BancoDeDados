@@ -11,9 +11,18 @@
     integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
   <!--Link personalizado-->
   <link rel="stylesheet" href="/css/chat-estilo.css">
-  <title>Chat</title>
+  <title>Lista de confirmados</title>
   <!-- scripts -->
   <script src="/javascr/userView_handler.js"></script>
+  <script>
+  	onload = () => {
+  		document.getElementById("submit-button").onclick = sendInfo;
+  	}
+  	
+  	function sendInfo(){
+  		location.href = "/sendConfirmacao/<ID>?status=<VALOR-STATUS>";
+  	}
+  </script>
 </head>
 
 <body>
@@ -57,15 +66,14 @@
     </div>
   </header>
   
-  <div class="chat-menu">
-  <h1>Chat</h1>
-	<section id="message-view">
-		<MENSAGENS>
+  <div class="lista-menu">
+  <h1>Confirmados</h1>
+	<section id="confirmados-view">
+		<PESSOAS>
 	</section>
-	<form action="<URL>" method="get">
-		<input type="text" id="mensagem" name="mensagem" placeholder="Mensagem">
-		<button type="submit">Enviar</button>
-	</form>
+	
+	<button id="submit-button">Confirmar</button>
+	
   </div>
   
   <!-- JavaScript (Opcional) -->

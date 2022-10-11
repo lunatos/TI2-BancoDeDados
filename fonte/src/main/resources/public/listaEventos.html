@@ -1,7 +1,7 @@
-<!DOCTYPE Html>
+<!DOCTYPE html>
 <html>
 <head>
-	 <!-- Meta tags Obrigatórias -->
+  <!-- Meta tags Obrigatórias -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <!--Fontaawesome-->
@@ -10,18 +10,18 @@
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
     integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
   <!--Link personalizado-->
-  <link rel="stylesheet" href="/css/chat-estilo.css">
-  <title>Chat</title>
+  <link rel="stylesheet" href="/css/listaEventos-estilo.css">
+  <title>MyMeetings</title>
   <!-- scripts -->
   <script src="/javascr/userView_handler.js"></script>
 </head>
 
 <body>
-<header>
+  <header>
     <nav class="navbar navbar-expand-md navbar-light fixed-top bg-light">
       <div class="container">
         <a href="">
-          <img src="/img/Logo-Mymeetings.png" class="navbar-brand" alt="" width="160">
+          <img src="img/Logo-Mymeetings.png" class="navbar-brand" alt="" width="160">
         </a>
         <!--Menu-hamburguer-->
         <button class="navbar-toggler" data-toggle="collapse" data-target="#nav-principal">
@@ -36,7 +36,7 @@
             </li>
 
             <li class="nav-item">
-              <a href="/meusEventos" class="nav-link">Meus Eventos</a>
+              <a href="" class="nav-link">Meus Eventos</a>
             </li>
 
             <li class="nav-item">
@@ -56,18 +56,12 @@
     	<a href="/logout">Logout</a>
     </div>
   </header>
-  
-  <div class="chat-menu">
-  <h1>Chat</h1>
-	<section id="message-view">
-		<MENSAGENS>
-	</section>
-	<form action="<URL>" method="get">
-		<input type="text" id="mensagem" name="mensagem" placeholder="Mensagem">
-		<button type="submit">Enviar</button>
-	</form>
-  </div>
-  
+
+  <section id="Eventos">
+      <h1 style="margin-bottom: 50px;">Eventos</h1>
+      <CARDS>
+  </section>
+ 
   <!-- JavaScript (Opcional) -->
   <!-- jQuery primeiro, depois Popper.js, depois Bootstrap JS -->
   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
@@ -80,4 +74,5 @@
     integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
     crossorigin="anonymous"></script>
 </body>
+
 </html>

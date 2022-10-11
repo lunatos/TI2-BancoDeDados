@@ -140,4 +140,32 @@ public class EventoDAO extends DAO {
 		}
 		return lista;
 	}
+	
+	public List<Evento> getAllEventosPessoa(String cpf){
+		List<Evento> lista = new ArrayList<Evento>();
+		
+		try {
+			Statement stat = connection.createStatement();
+			String sql = "SELECT * FROM \"public\".\"Evento\" WHERE dono = '" + cpf + "';";
+			ResultSet rs = stat.executeQuery(sql);
+			while(rs.next()) {
+				Evento evento = new Evento(
+						rs.getInt("id"),
+						rs.getString("dono"),
+						rs.getString("nome"),
+						rs.getInt("qtd_participantes"),
+						rs.getInt("max_participantes"),
+						rs.getString("data"),
+						rs.getString("horario"),
+						rs.getString("endereco"),
+						rs.getString("descricao"),
+						rs.getBoolean("publico")
+						);
+				lista.add(evento);
+			}
+		}catch(SQLException err) {
+			System.out.println(err.getMessage());
+		}
+		return lista;
+	}
 }

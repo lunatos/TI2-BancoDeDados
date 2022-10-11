@@ -33,15 +33,15 @@
         <div class="collapse navbar-collapse" id="nav-principal">
           <ul class="navbar-nav ml-auto">
             <li class="nav-item">
-              <a href="" class="nav-link">Home</a>
+              <a href="/" class="nav-link">Home</a>
             </li>
 
             <li class="nav-item">
-              <a href="" class="nav-link">Eventos</a>
+              <a href="/meusEventos" class="nav-link">Meus Eventos</a>
             </li>
 
             <li class="nav-item">
-              <a href="" class="nav-link">Agenda</a>
+              <a href="/agenda" class="nav-link">Agenda</a>
             </li>
 
             <li class="nav-item">
@@ -72,7 +72,7 @@
 
               <div class="carousel-item ">
                 <h1>Agendar Evento</h1>
-                <a href="" class="btn btn-lg btn-custom btn-branco">Agende Agora</a>
+                <a href="/agenda" class="btn btn-lg btn-custom btn-branco">Agende Agora</a>
               </div>
 
               <div class="carousel-item ">
@@ -90,7 +90,6 @@
 
           </div>
 
-
         </div>
       </div>
     </div>
@@ -104,38 +103,24 @@
         <CARD-2>
         <CARD-3>
       </div>
-      <a href="" class="btn btn-cinza btn-outline-light btn-lg mt-5"><i class="fa-solid fa-plus"></i></a>
+      <a href="/listaEventos" class="btn btn-cinza btn-outline-light btn-lg mt-5"><i class="fa-solid fa-plus"></i></a>
     </div>
   </section>
   <section id="Agenda">
     <div class="Container">
       <div class="row">
-        <div class="col-md-6" >
+        <div class="col-md-6" id="consultar-title" >
           <div class="row">
             <div class="col-md-12">
-              <h1 class="capa">Eventos Próximos</h1>
+              <h1 class="capa">Consultar Eventos:</h1>
             </div>
-            <div class="col-md-8 card-eventos">
-              <div class="row">
-
-                <div class="col-md-8">
-                  <h1>
-                    Festival Escolar
-                  </h1>
-                  <div class="col-md-12"><h5 class="text-dark">Tipo: Público</h5></div>
-                </div>
-                
-                <div class="col-md-3 btn align-self-center"><a href=""><i class="fa-solid fa-paper-plane fa-2x"></i></a></div>
-                
-              </div>
-            </div>
-            
+  
           </div>
         </div>
         <div class="col-md-6">
-          <div class="row">
-            <div class="col-md-12"><h1 class="capa">Consultar Agenda</h1></div>
-            <div class="col-md-12 capa mt-4 btn-calendario"><a href=""><i class="fa-solid fa-calendar-days fa-3x"></i></a></div>
+          <div class="row" id="agenda-display">
+            <div class="col-md-12"><h1 class="capa">Agenda</h1></div>
+            <div class="col-md-12 capa mt-4 btn-calendario"><a href="/agenda"><i class="fa-solid fa-calendar-days fa-3x"></i></a></div>
           </div>
           
         </div>
