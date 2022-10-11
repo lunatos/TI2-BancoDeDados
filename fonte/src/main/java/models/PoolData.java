@@ -23,21 +23,24 @@ public class PoolData {
 
 	/**
 	 * {@summary Adiciona um voto em uma das op��es da pool.}
+	 * 
 	 * @param opcao = opcao a,b,c ... da pool.
-	 * */
+	 */
 	public void addVoto(int opcao) {
-		if(opcao >= votoOpcao.length) throw new ArrayIndexOutOfBoundsException();
+		if (opcao >= votoOpcao.length)
+			throw new ArrayIndexOutOfBoundsException();
 		qtdVotos++;
 		votoOpcao[opcao] += 1;
 	}
-	//getters
+
+	// getters
 	/**
 	 * Retorna o �ndice da op��o com mais votos na pool.
-	 * */
+	 */
 	public int getResultado() {
 		int maior = -1;
-		for(int i = 0; i < qtdOpcoes; i++) {
-			if(votoOpcao[i] > maior) {
+		for (int i = 0; i < qtdOpcoes; i++) {
+			if (votoOpcao[i] > maior) {
 				maior = i;
 			}
 		}
@@ -49,7 +52,8 @@ public class PoolData {
 	}
 
 	public Date getOpcao(int i) {
-		if(i >= votoOpcao.length) throw new ArrayIndexOutOfBoundsException();
+		if (i >= votoOpcao.length)
+			throw new ArrayIndexOutOfBoundsException();
 		return opcoes[i];
 	}
 
@@ -75,5 +79,19 @@ public class PoolData {
 
 	public int[] getVotoOpcao() {
 		return votoOpcao;
+	}
+
+	/**
+	 * Checagem da data limite da pool com data atual
+	 * 
+	 * @return true se a data atual for maior do que o tempo limite
+	 */
+	public boolean checaData() {
+		boolean resp = false;
+		Date atual = new Date(System.currentTimeMillis());
+		if (this.tempoLimite.before(atual)) {
+			resp = true;
+		}
+		return resp;
 	}
 }
