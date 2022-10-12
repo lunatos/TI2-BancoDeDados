@@ -19,6 +19,7 @@ public class PaginaMeusEventos {
 		EventoDAO eDao = new EventoDAO();
 		Usuario user = contS.recuperarUsuario(Integer.parseInt(req.cookie("key")));
 		String page = "";
+		String userH = "<h5>" + user.getNome() + " " + user.getSobrenome() + "</h5>";
 		contS.disconnect();
 		
 		List<Evento> meusEventos = eDao.getAllEventosPessoa(user.getCpf());
@@ -36,17 +37,19 @@ public class PaginaMeusEventos {
 		
 		String list = "<div>\n";
 		for(int i = 0; i < meusEventos.size(); i++) {
-			String ul = "<div>\n";
-			ul += "<h4>" + meusEventos.get(i).getNome() + "</h4>\n";
+			String ul = "<div class=\"evento-grupo\">\n";
+			ul += "<h4 class=\"evento-titulo\">" + meusEventos.get(i).getNome() + "</h4>\n";
 			ul += "<div>\n";
-			ul += "<a href=\"/updateEvento/" + meusEventos.get(i).getId() + "\">u" + "<i class=\"fa-solid fa-rotate-right\"></i>" + "</a>\n";
-			ul += "<a href=\"/deleteEvento/" + meusEventos.get(i).getId() + "\">d" + "<i class=\"fa-solid fa-circle-xmark\"></i>" + "</a>\n";
+			ul += "<a href=\"/updateEvento/" + meusEventos.get(i).getId() + "\">" + "<i class=\"fa-solid fa-rotate-right\"></i>" + "</a>\n";
+			ul += "<a href=\"/deleteEvento/" + meusEventos.get(i).getId() + "\">" + "<i class=\"fa-solid fa-circle-xmark\"></i>" + "</a>\n";
 			ul += "</div>\n";
 			ul += "</div>\n";
 			
 			list += ul;
 		}
 		list += "</div>\n";
+		page = page.replaceFirst("<LOGIN-BUTTON>", "<li class=\"nav-item\"><a id=\"user-view\"><i class=\"fa-solid fa-circle-user\"></i></a></li>");
+		page = page.replaceFirst("<USER-NAME>", userH);
 		page = page.replaceFirst("<EVENTOS>", list);
 		
 		return page;

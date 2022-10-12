@@ -18,7 +18,7 @@ public class AutenticarService {
 			int key = cont.iniciarSessao(u.getUsuario(req.queryParams("login"), req.queryParams("password")));
 			
 			if(req.cookie("key") == null) {					
-				res.cookie("/", "key", String.valueOf(key), 3600, false);
+				res.cookie("/", "key", String.valueOf(key), 43200, false);
 			}
 			
 			cont.disconnect();

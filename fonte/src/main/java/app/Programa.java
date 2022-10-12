@@ -100,10 +100,7 @@ public class Programa {
 		});
 		
 		//pagina que exibe o evento
-		get("/evento/:id", (req, res) -> {
-			int id = Integer.parseInt(req.params("id"));
-			return PaginaEvento.createPaginaEvento(id);
-		});
+		get("/evento/:id", (req, res) -> PaginaEvento.createPaginaEvento(req, res));
 		
 		//requisicao para participar de um evento
 		get("/entrarEvento/:id", (req, res) ->{

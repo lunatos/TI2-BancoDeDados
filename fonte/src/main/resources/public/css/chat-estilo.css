@@ -94,13 +94,17 @@ h1,p{
 	max-height: 65vh;
 }
 #message-view{
-	max-height: 45vh;
+	background-color: #cfcfcf;
+	
+	margin: 10px;
+	border-radius: 10px;
+	height: 45vh;
 	overflow: scroll;
 }
 .chat-menu h1{
 	text-align: center;
 	color: black;
-	font-family:monospace;
+	font-family: sans-serif;
 	border-bottom: 1px solid #cfcfcf;
 }
 .chat-menu li{
@@ -114,11 +118,11 @@ h1,p{
 	margin: 2px
 }
 .chat-menu li p{
-	font-family:monospace;
+	font-family: sans-serif;
 }
 .chat-menu li h6{
 	color: white;
-	font-family:monospace;
+	font-family: sans-serif;
 	font-size: 1.1em;
 }
 #mensagem{

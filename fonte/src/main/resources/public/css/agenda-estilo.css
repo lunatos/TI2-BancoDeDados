@@ -3,7 +3,7 @@ html,body,#home{
     overflow-x: hidden;
 }
 body{
-    background: linear-gradient(50deg, #8c99d3, #50238f);
+    background-color: #cfcfcf;
     background-attachment: fixed;
     font-family: Arial, Helvetica, sans-serif;
 }
@@ -63,6 +63,37 @@ h1,p{
 .fa-paper-plane{
     color: #50238f;
 }
+/*Home*/
+
+
+/*Eventos*/
+#Eventos{
+    padding: 50px 0px;
+    background-color: #fff;
+}
+.card-custom{
+    border: 2px solid #8c99d3;
+    box-shadow: 2px 5px #8c99d3 ;
+    border-radius: 10px ;
+    margin-bottom: 10px;
+    margin-left: auto;
+    margin-right: auto;
+    transition: background-color 2s ease-out;
+}
+.card-custom:hover{
+    background-color:#8c99d3;
+}
+#Eventos h1,h3{
+    color: #50238f;
+    margin: 20px 0px;
+}
+
+/*Criar*/
+#CriarEvento{
+    height: 40%;
+    background-color: #fff;
+}
+
 
 /*Nav*/
 #user-view{
@@ -82,42 +113,45 @@ h1,p{
 	left: 80vw;
 	top: 15vh;
 }
+.agenda{
+	padding-bottom: 20px;
+}
+.agenda-group{
+	margin: 20vh 20vw 5vh;
+	background-color: #50238f;
+	border-radius: 25px;
+}
+.agenda-group h1{
+	text-align: center;
+	color: white;
+}
 
-/**/
-.list-group{
-	margin: 0vh 20vw 0vh;
-	padding-top: 20vh;
+.data-grupo{
+	margin: 30px;
+}
+.data-grupo h2{
+	color: white;
+	background-color: #875cdb;
+	padding: 10px;
+	border-radius: 10px;
+}
+.data-grupo div{
+	border-left: 2px solid #875cdb;
+	padding: 10px;
+}
+.data-grupo a{
+	display:block;
+	margin-left: 10px;
+	padding: 10px;
+	border-bottom: 2px solid #87c0fa;
+	border-radius: 10px;
 	
 	background-color: white;
-	height: 100vh;
-	overflow: scroll;
-	
-	border-left: 4px solid #cfcfcf;
-	border-right: 4px solid #cfcfcf;
+	color: black;
+	font-family: sans-serif;
 }
-.list-group h1{
-	text-align: center;
-	color: grey;
-	border-bottom: 1px solid #cfcfcf;
-}
-.evento-grupo{
-	display: flex;
-	justify-content: space-between;
-
-	margin: 10px;
-	padding: 5px;
-	
-	background-color: #cfcfcf;
-	border-radius: 10px;
-	border-bottom: 2px solid #87c0fa;
-}
-.fa-rotate-right{
-	font-size: 1.4em;
-	margin: 5px;
-	color: blue;
-}
-.fa-circle-xmark{
-	font-size: 1.4em;
-	margin: 5px;
-	color: red;
+.fa-star{
+	font-size: 1.1em;
+	margin-right: 10px;
+	color: #875cdb;
 }

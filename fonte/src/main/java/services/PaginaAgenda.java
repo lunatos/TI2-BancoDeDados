@@ -20,6 +20,7 @@ public class PaginaAgenda {
 		ControleSessao contS = new ControleSessao();
 		ControleEvento contE = new ControleEvento();
 		Usuario u = contS.recuperarUsuario(Integer.parseInt(req.cookie("key")));
+		String userH = "<h5>" + u.getNome() + " " + u.getSobrenome() + "</h5>";
 		contS.disconnect();
 		
 		try {
@@ -50,20 +51,22 @@ public class PaginaAgenda {
 		}
 		
 		//definindo as datas
-		agenda = "<div class=\"agenda-grupo\">\n";
+		agenda = "<div class=\"agenda\">\n";
 		for(int i = 0; i < eventos.size(); i++) {
 			String data = eventos.get(i).getData();
 			data = data.replaceAll("-", "/");
 			
-			String tmp = "<div>\n";
+			String tmp = "<div class=\"data-grupo\">\n";
 			tmp += "<h2>" + data + "</h2>\n";
-			tmp += 	"<div><a href=\"/evento/" + eventos.get(i).getId() + "\">" + 
-					eventos.get(i).getNome() + "</a></div>\n";
+			tmp += 	"<div></i><a href=\"/evento/" + eventos.get(i).getId() + "\">" + 
+					"<i class=\"fa-solid fa-star\"></i>" + eventos.get(i).getNome() + "</a></div>\n";
 			tmp += "</div>\n";
 			agenda += tmp;
 		}
 		agenda += "</div>\n";
 		
+		page = page.replaceFirst("<LOGIN-BUTTON>", "<li class=\"nav-item\"><a id=\"user-view\"><i class=\"fa-solid fa-circle-user\"></i></a></li>");
+		page = page.replaceFirst("<USER-NAME>", userH);
 		page = page.replaceFirst("<DATAS>", agenda);
 		
 		return page;

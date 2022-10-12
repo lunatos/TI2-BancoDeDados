@@ -70,11 +70,17 @@ public class EventoService {
 		EventoDAO eDao = new EventoDAO();
 		Evento e = eDao.getEvento(Integer.parseInt(req.params("id")));
 		
-		e.setNome(req.queryParams("name"));
-		e.setData(req.queryParams("date"));
-		e.setHorario(req.queryParams("time"));
+		String data = req.queryParams("data");
+		String[] dParts = data.split("-");
+		data = dParts[2] + "-" + dParts[1] + "-" + dParts[0];
+		
+		e.setNome(req.queryParams("nome"));
+		e.setData(data);
+		e.setHorario(req.queryParams("horario"));
+		e.setEndereco(req.queryParams("endereco"));
 		e.setMaxParticipantes(Integer.parseInt(req.queryParams("maxP")));
-		e.setDescricao(req.queryParams("info"));
+		e.setDescricao(req.queryParams("descricao"));
+		e.setPrivacidade(Boolean.valueOf(req.queryParams("publico")));
 		
 		eDao.updateEvento(e);
 		eDao.disconnect();
