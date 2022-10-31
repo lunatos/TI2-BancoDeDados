@@ -1,6 +1,12 @@
 package dao;
 
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.sql.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import models.Usuario;
 
 public class UsuarioDAO extends DAO {
@@ -26,6 +32,20 @@ public class UsuarioDAO extends DAO {
 		}
 		
 		return status;
+	}
+	
+	public  static BigInteger criptografia(String senha) {
+		MessageDigest md5;
+		BigInteger resp = null;
+		try {
+			md5 = MessageDigest.getInstance("MD5");
+			md5.reset();
+			md5.update(senha.getBytes(), 0, senha.length());
+			resp = new BigInteger(1, md5.digest());
+		} catch(NoSuchAlgorithmException ex) {
+			Logger.getLogger(Usuario.class.getName()).log(Level.SEVERE, null, ex);
+		}
+		return resp;
 	}
 	
 	public boolean deleteUsuario(String cpf) {
