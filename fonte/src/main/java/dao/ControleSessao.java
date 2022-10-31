@@ -25,7 +25,7 @@ public class ControleSessao extends DAO {
 			id = rand.nextInt(9000) + 1000;
 			try {
 				Statement stat = connection.createStatement();
-				String sql = "SELECT * FROM \"public\".\"Sessao\" WHERE id = " + id + ";";
+				String sql = "SELECT * FROM Sessao WHERE id = " + id + ";";
 				ResultSet rs = stat.executeQuery(sql);
 				if(!rs.next()) {
 					valid = true;
@@ -48,7 +48,7 @@ public class ControleSessao extends DAO {
 			code = gerarID();
 			try {
 				Statement stat = connection.createStatement();
-				String sql = "INSERT INTO \"public\".\"Sessao\" (id, usuario) VALUES (" + code + ", '" + user.getCpf() + "');";
+				String sql = "INSERT INTO Sessao (id, usuario) VALUES (" + code + ", '" + user.getCpf() + "');";
 				stat.executeUpdate(sql);
 				stat.close();
 			}catch(SQLException err) {
@@ -67,7 +67,7 @@ public class ControleSessao extends DAO {
 		
 		try {
 			Statement stat = connection.createStatement();
-			String sql = "SELECT * FROM \"public\".\"Sessao\" WHERE usuario = '" + user.getCpf() + "';";
+			String sql = "SELECT * FROM Sessao WHERE usuario = '" + user.getCpf() + "';";
 			ResultSet rs = stat.executeQuery(sql);
 			if(rs.next()) {
 				result = rs.getInt("id");
@@ -86,10 +86,10 @@ public class ControleSessao extends DAO {
 		if(req.cookie("key") != null) {			
 			id = Integer.parseInt(req.cookie("key"));
 		}
-		
+
 		try {
 			Statement stat = connection.createStatement();
-			String sql = "SELECT * FROM \"public\".\"Sessao\" WHERE id = " + id + ";";
+			String sql = "SELECT * FROM Sessao WHERE id = " + id + ";";
 			ResultSet rs = stat.executeQuery(sql);
 			if(rs.next()) {
 				status = true;
@@ -98,6 +98,7 @@ public class ControleSessao extends DAO {
 		}catch(SQLException err) {
 			System.out.println(err.getMessage());
 		}
+
 		return status;
 	}
 
@@ -111,7 +112,7 @@ public class ControleSessao extends DAO {
 		try {
 			//primeira consulta
 			Statement stat1 = connection.createStatement();
-			String sql_session = "SELECT * FROM \"public\".\"Sessao\" WHERE id = " + key;
+			String sql_session = "SELECT * FROM Sessao WHERE id = " + key;
 			ResultSet r1 = stat1.executeQuery(sql_session);
 			String cpf = "";
 			
@@ -122,7 +123,7 @@ public class ControleSessao extends DAO {
 			
 			//segunda consulta
 			Statement stat2 = connection.createStatement();
-			String sql = "SELECT * FROM \"public\".\"Usuario\" WHERE cpf = '" + cpf + "'";
+			String sql = "SELECT * FROM Usuario WHERE cpf = '" + cpf + "'";
 			ResultSet r2 = stat2.executeQuery(sql);
 			if(r2.next()) {				
 				user = new Usuario(

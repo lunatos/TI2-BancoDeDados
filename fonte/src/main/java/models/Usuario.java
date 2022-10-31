@@ -1,11 +1,5 @@
 package models;
 
-import java.math.BigInteger;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 public class Usuario {
 	
 	private String cpf;
@@ -20,22 +14,6 @@ public class Usuario {
 		this.uNome = uNome;
 		this.login = login;
 		this.senha = senha;
-	}
-	
-	//
-	public  static BigInteger criptografia(String senha) {
-		MessageDigest md5;
-		BigInteger resp = null;
-		try {
-			md5 = MessageDigest.getInstance("MD5");
-			md5.reset();
-			md5.update(senha.getBytes(), 0, senha.length());
-			resp = new BigInteger(1, md5.digest());
-		} catch(NoSuchAlgorithmException ex) {
-			Logger.getLogger(Usuario.class.getName()).log(Level.SEVERE, null, ex);
-		}
-		
-		return resp;
 	}
 	
 	//getters

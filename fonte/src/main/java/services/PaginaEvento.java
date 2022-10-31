@@ -73,7 +73,7 @@ public class PaginaEvento {
 		
 		listaPartic = "<ul class=\"list-group\">\n";
 		for(int i = 0; i < users.size(); i++) {
-			listaPartic += "<li class=\"list-group-item\">" + users.get(i).getNome() + " " + users.get(i).getSobrenome() + "</li>\n";
+			listaPartic += "<li class=\"list-group-item\">" + "<div>" + users.get(i).getNome() + " " + users.get(i).getSobrenome() + "</div><div><a href=\"/addAmizade/" + users.get(i).getCpf() + "\">" + "<i class=\"fa-solid fa-user-plus\"></i>" + "</a></div>" + "</li>\n";
 		}
 		listaPartic += "</ul>\n";
 		page = page.replaceFirst("<LISTA-PARTICIPANTES>", listaPartic);

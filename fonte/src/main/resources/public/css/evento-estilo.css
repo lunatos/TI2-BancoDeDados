@@ -55,3 +55,12 @@ h1,h2{
 	left: 80vw;
 	top: 15vh;
 }
+
+.list-group-item{
+	display: flex;
+	justify-content: space-between;
+}
+.fa-user-plus{
+	font-size: 1.2em;
+	color: purple;
+}

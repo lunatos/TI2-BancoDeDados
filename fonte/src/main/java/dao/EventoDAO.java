@@ -24,7 +24,7 @@ public class EventoDAO extends DAO {
 			id = rand.nextInt(9000) + 1000;
 			try {
 				Statement stat = connection.createStatement();
-				String sql = "SELECT * FROM \"public\".\"Evento\" WHERE id = " + id + ";";
+				String sql = "SELECT * FROM Evento WHERE id = " + id + ";";
 				ResultSet rs = stat.executeQuery(sql);
 				if(!rs.next()) {
 					valid = true;
@@ -41,7 +41,7 @@ public class EventoDAO extends DAO {
 		boolean status = true;
 		try {
 			Statement stat = connection.createStatement();
-			String sql = 	"INSERT INTO \"public\".\"Evento\" (id, dono, nome, qtd_participantes, max_participantes, data, horario, endereco, descricao, publico)" +
+			String sql = 	"INSERT INTO Evento (id, dono, nome, qtd_participantes, max_participantes, data, horario, endereco, descricao, publico)" +
 							"VALUES (" + evento.getId() + ", '" + evento.getDono() + "', '" + evento.getNome() + "', " +
 							evento.getQtdParticipantes() + ", " + evento.getMaxParticipantes() + ", '" + evento.getData().toString() + "', '" +
 							evento.getHorario() + "', '" + evento.getEndereco() + "', '" + evento.getDescricao() + "', " + evento.getPrivacidade() + ");";
@@ -58,7 +58,7 @@ public class EventoDAO extends DAO {
 		boolean status = true;
 		try {
 			Statement stat = connection.createStatement();
-			String sql = 	"UPDATE \"public\".\"Evento\" SET id = " + newEvento.getId() + ", dono = '" +
+			String sql = 	"UPDATE Evento SET id = " + newEvento.getId() + ", dono = '" +
 							newEvento.getDono() + "', nome = '" + newEvento.getNome() + "', qtd_participantes = " +
 							newEvento.getQtdParticipantes() + ", max_participantes = " + newEvento.getMaxParticipantes() +
 							", data = '" + newEvento.getData().toString() +  "', horario = '" + newEvento.getHorario() + 
@@ -77,7 +77,7 @@ public class EventoDAO extends DAO {
 		boolean status = true;
 		try {
 			Statement stat = connection.createStatement();
-			String sql = "DELETE FROM \"public\".\"Evento\" WHERE id = " + id + ";";
+			String sql = "DELETE FROM Evento WHERE id = " + id + ";";
 			stat.executeUpdate(sql);
 			stat.close();
 		}catch(SQLException err) {
@@ -91,7 +91,7 @@ public class EventoDAO extends DAO {
 		Evento evento = null;
 		try {
 			Statement stat = connection.createStatement();
-			String sql = "SELECT * FROM \"public\".\"Evento\" WHERE id = " + id + ";";
+			String sql = "SELECT * FROM Evento WHERE id = " + id + ";";
 			ResultSet rs = stat.executeQuery(sql);
 			if(rs.next()) {
 				evento = new Evento(
@@ -118,7 +118,7 @@ public class EventoDAO extends DAO {
 		
 		try {
 			Statement stat = connection.createStatement();
-			String sql = "SELECT * FROM \"public\".\"Evento\"";
+			String sql = "SELECT * FROM Evento";
 			ResultSet rs = stat.executeQuery(sql);
 			while(rs.next()) {
 				Evento evento = new Evento(
@@ -146,7 +146,7 @@ public class EventoDAO extends DAO {
 		
 		try {
 			Statement stat = connection.createStatement();
-			String sql = "SELECT * FROM \"public\".\"Evento\" WHERE dono = '" + cpf + "';";
+			String sql = "SELECT * FROM Evento WHERE dono = '" + cpf + "';";
 			ResultSet rs = stat.executeQuery(sql);
 			while(rs.next()) {
 				Evento evento = new Evento(

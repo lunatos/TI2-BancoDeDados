@@ -28,7 +28,7 @@ public class ControleEvento extends DAO{
 			id = rand.nextInt(9000) + 1000;
 			try {
 				Statement stat = connection.createStatement();
-				String sql = "SELECT * FROM \"public\".\"ControladorEvento\" WHERE id = " + id + ";";
+				String sql = "SELECT * FROM ControladorEvento WHERE id = " + id + ";";
 				ResultSet rs = stat.executeQuery(sql);
 				if(!rs.next()) {
 					valid = true;
@@ -51,7 +51,7 @@ public class ControleEvento extends DAO{
 		int code = gerarID();
 		try {
 			Statement stat = connection.createStatement();
-			String sql = 	"INSERT INTO \"public\".\"ControladorEvento\" (id, evento, participante, confirmado)" +
+			String sql = 	"INSERT INTO ControladorEvento (id, evento, participante, confirmado)" +
 							"VALUES (" + code + ", " + chaveEvento + ", '" + cpf + "', false);";
 			stat.executeUpdate(sql);
 			stat.close();
@@ -72,7 +72,7 @@ public class ControleEvento extends DAO{
 		boolean status = true;
 		try {
 			Statement stat = connection.createStatement();
-			String sql = "DELETE FROM \"public\".\"ControladorEvento\" WHERE evento = " + chaveEvento + "AND participante = '" + cpf + "';";
+			String sql = "DELETE FROM ControladorEvento WHERE evento = " + chaveEvento + "AND participante = '" + cpf + "';";
 			stat.executeUpdate(sql);
 			stat.close();
 		}catch(SQLException err) {
@@ -87,7 +87,7 @@ public class ControleEvento extends DAO{
 		boolean status = true;
 		try {
 			Statement stat = connection.createStatement();
-			String sql = "UPDATE \"public\".\"ControladorEvento\" SET confirmado = " + state + " WHERE id =" + id + ";";
+			String sql = "UPDATE ControladorEvento SET confirmado = " + state + " WHERE id =" + id + ";";
 			stat.executeUpdate(sql);
 			stat.close();
 		}catch(SQLException err) {
@@ -102,7 +102,7 @@ public class ControleEvento extends DAO{
 		RelacaoEvento rel = null;
 		try {
 			Statement stat = connection.createStatement();
-			String sql = "SELECT * FROM \"public\".\"ControladorEvento\" WHERE evento = " + chaveEvento + "AND participante = '" + cpf + "';";
+			String sql = "SELECT * FROM ControladorEvento WHERE evento = " + chaveEvento + "AND participante = '" + cpf + "';";
 			ResultSet rs = stat.executeQuery(sql);
 			if(rs.next()) {
 				rel = new RelacaoEvento(rs.getInt("id"), rs.getInt("evento"), rs.getString("participante"), rs.getBoolean("confirmado"));
@@ -119,7 +119,7 @@ public class ControleEvento extends DAO{
 		boolean status = false;
 		try {
 			Statement stat = connection.createStatement();
-			String sql = "SELECT * FROM \"public\".\"ControladorEvento\" WHERE evento = " + chaveEvento + " AND participante = '" + cpf + "';";
+			String sql = "SELECT * FROM ControladorEvento WHERE evento = " + chaveEvento + " AND participante = '" + cpf + "';";
 			ResultSet rs = stat.executeQuery(sql);
 			if(rs.next()) {
 				status = true;
@@ -142,7 +142,7 @@ public class ControleEvento extends DAO{
 		//recupera os participantes
 		try {
 			Statement stat = connection.createStatement();
-			String sql = "SELECT * FROM \"public\".\"ControladorEvento\" WHERE evento = " + chaveEvento + ";";
+			String sql = "SELECT * FROM ControladorEvento WHERE evento = " + chaveEvento + ";";
 			ResultSet rs = stat.executeQuery(sql);
 			while(rs.next()) {
 				cpfs.add(rs.getString("participante"));
@@ -168,7 +168,7 @@ public class ControleEvento extends DAO{
 		//recupera os participantes
 		try {
 			Statement stat = connection.createStatement();
-			String sql = "SELECT * FROM \"public\".\"ControladorEvento\" WHERE participante = '" + cpf + "';";
+			String sql = "SELECT * FROM ControladorEvento WHERE participante = '" + cpf + "';";
 			ResultSet rs = stat.executeQuery(sql);
 			while(rs.next()) {
 				Evento e = eDao.getEvento(rs.getInt("evento"));

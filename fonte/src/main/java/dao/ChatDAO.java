@@ -28,7 +28,7 @@ public class ChatDAO extends DAO {
 			id = rand.nextInt(9000) + 1000;
 			try {
 				Statement stat = connection.createStatement();
-				String sql = "SELECT * FROM \"public\".\"Chat\" WHERE id = " + id + ";";
+				String sql = "SELECT * FROM Chat WHERE id = " + id + ";";
 				ResultSet rs = stat.executeQuery(sql);
 				if(!rs.next()) {
 					valid = true;
@@ -48,7 +48,7 @@ public class ChatDAO extends DAO {
 		List<Mensagem> lista = new ArrayList<Mensagem>();
 		try {
 			Statement stat = connection.createStatement();
-			String sql = 	"SELECT * FROM \"public\".\"Chat\" WHERE evento = " + eventoId + " AND " +
+			String sql = 	"SELECT * FROM Chat WHERE evento = " + eventoId + " AND " +
 							"pessoa = '" + cpf + "';";
 			ResultSet rs = stat.executeQuery(sql);
 			while(rs.next()) {
@@ -70,7 +70,7 @@ public class ChatDAO extends DAO {
 		List<Mensagem> lista = new ArrayList<Mensagem>();
 		try {
 			Statement stat = connection.createStatement();
-			String sql = 	"SELECT * FROM \"public\".\"Chat\" WHERE evento = " + eventoId + ";";
+			String sql = 	"SELECT * FROM Chat WHERE evento = " + eventoId + ";";
 			ResultSet rs = stat.executeQuery(sql);
 			while(rs.next()) {
 				Mensagem msg = new Mensagem(rs.getInt("id"), rs.getInt("evento"), rs.getString("pessoa"), rs.getString("conteudo"));
@@ -88,7 +88,7 @@ public class ChatDAO extends DAO {
 		boolean status = true;
 		try {
 			Statement stat = connection.createStatement();
-			String sql = 	"INSERT INTO \"public\".\"Chat\" (id, evento, pessoa, conteudo) " +
+			String sql = 	"INSERT INTO Chat (id, evento, pessoa, conteudo) " +
 							"VALUES (" + msg.getId() + ", " + msg.getEventoId() + ", '" + msg.getPessoa() +
 							"', '" + msg.getConteudo() + "');";
 			stat.executeUpdate(sql);

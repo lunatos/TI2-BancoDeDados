@@ -13,7 +13,7 @@ public class UsuarioDAO extends DAO {
 		
 		try {
 			Statement stat = connection.createStatement();
-			String sql = 	"INSERT INTO \"public\".\"Usuario\" (cpf, telefone, nome, sobrenome, login, senha) " +
+			String sql = 	"INSERT INTO Usuario (cpf, telefone, nome, sobrenome, login, senha) " +
 					 		"VALUES ('" + newUser.getCpf() + "', '" + newUser.getTelefone() + "', '" +
 					 		newUser.getNome() + "', '" + newUser.getSobrenome() + "', '" +
 							newUser.getLogin() + "', '" + newUser.getSenha() + "');";
@@ -33,7 +33,7 @@ public class UsuarioDAO extends DAO {
 		
 		try {
 			Statement stat = connection.createStatement();
-			String sql = "DELETE FROM \"public\".\"Usuario\" WHERE cpf = " + "'" + cpf + "'";
+			String sql = "DELETE FROM Usuario WHERE cpf = " + "'" + cpf + "'";
 			stat.executeUpdate(sql);
 			stat.close();
 		}catch(SQLException err) {
@@ -48,7 +48,7 @@ public class UsuarioDAO extends DAO {
 		
 		try {
 			Statement stat = connection.createStatement();
-			String sql = 	"UPDATE \"public\".\"Usuario\" SET cpf = '" + u.getCpf() + "', telefone = '" + u.getTelefone() + "', " +
+			String sql = 	"UPDATE Usuario SET cpf = '" + u.getCpf() + "', telefone = '" + u.getTelefone() + "', " +
 							"nome = '" + u.getNome() + "', sobrenome = '" + u.getSobrenome() + "', login = '" + 
 							u.getLogin() + "', senha = '" + u.getSenha() + "' WHERE cpf = '" + u.getCpf() + "';";
 			stat.executeUpdate(sql);
@@ -66,7 +66,7 @@ public class UsuarioDAO extends DAO {
 		
 		try {
 			Statement stat = connection.createStatement();
-			String sql = "SELECT * FROM \"public\".\"Usuario\" WHERE cpf = '" + cpf + "'";
+			String sql = "SELECT * FROM Usuario WHERE cpf = '" + cpf + "'";
 			ResultSet r = stat.executeQuery(sql);
 			if(r.next()) {				
 				user = new Usuario(
@@ -90,7 +90,7 @@ public class UsuarioDAO extends DAO {
 		
 		try {
 			Statement stat = connection.createStatement();
-			String sql = "SELECT * FROM \"public\".\"Usuario\" WHERE login = '" + login + "' AND senha = '" + senha + "';";
+			String sql = "SELECT * FROM Usuario WHERE login = '" + login + "' AND senha = '" + senha + "';";
 			ResultSet r = stat.executeQuery(sql);
 			if(r.next()) {				
 				user = new Usuario(
@@ -119,7 +119,7 @@ public class UsuarioDAO extends DAO {
 		boolean status = true;
 		try {
 			Statement stat = connection.createStatement();
-			String sql = "SELECT * FROM \"public\".\"Usuario\" WHERE login = '" + login + "' AND senha = '" + senha + "';";
+			String sql = "SELECT * FROM Usuario WHERE login = '" + login + "' AND senha = '" + senha + "';";
 			ResultSet rs = stat.executeQuery(sql);
 			status = rs.next();
 			stat.close();

@@ -10,12 +10,12 @@ public class DAO {
 	
 	protected void connect() {
 		String driverName = "org.postgresql.Driver";                    
-		String serverName = "localhost";
-		String mydatabase = "myMeetings";
+		String serverName = "my-meetings.postgres.database.azure.com";
+		String mydatabase = "mymeetings";
 		int porta = 5432;
 		String url = "jdbc:postgresql://" + serverName + ":" + porta +"/" + mydatabase;
-		String username = "ti2cc";
-		String password = "ti@cc";
+		String username = "adm@my-meetings";
+		String password = "Firebike@36";
 		
 		try {
 			Class.forName(driverName);

@@ -220,5 +220,21 @@ public class Programa {
 			return null;
 		});
 		
+		//LISTA DE AMIGOS
+		//--------------------------------------------------------------------------------+
+		
+		get("/amigos", (req, res) -> PaginaAmigos.criarPaginaAmigos(req, res));
+		
+		get("/addAmizade/:cpf", (req, res) -> {
+			AmizadeService.adicionarAmizade(req, res);
+			return null;
+		});
+		
+		//DEBUG
+		get("/removeKey", (req, res) -> {
+			res.removeCookie("key");
+			res.redirect("/");
+			return null;
+		});
 	}
 }
