@@ -27,7 +27,7 @@ public class AmizadeDAO extends DAO {
 			id = rand.nextInt(9000) + 1000;
 			try {
 				Statement stat = connection.createStatement();
-				String sql = "SELECT * FROM \"public\".\"Amizade\" WHERE id = " + id + ";";
+				String sql = "SELECT * FROM Amizade WHERE id = " + id + ";";
 				ResultSet rs = stat.executeQuery(sql);
 				if(!rs.next()) {
 					valid = true;
@@ -44,7 +44,7 @@ public class AmizadeDAO extends DAO {
 		boolean status = true;
 		try {
 			Statement stat = connection.createStatement();
-			String sql = 	"INSERT INTO \"public\".\"Amizade\" (id, usuario1, usuario2)"
+			String sql = 	"INSERT INTO Amizade (id, usuario1, usuario2)"
 							+ "VALUES (" + gerarID() + ", '" + cpf1 + "', '" + cpf2 + "');";
 			stat.executeUpdate(sql);
 			stat.close();
@@ -59,7 +59,7 @@ public class AmizadeDAO extends DAO {
 		List<Amizade> lista = new ArrayList<Amizade>();
 		try {
 			Statement stat = connection.createStatement();
-			String sql = 	"SELECT * FROM \"public\".\"Amizade\" WHERE usuario1 = '" + cpf + "' OR "
+			String sql = 	"SELECT * FROM Amizade WHERE usuario1 = '" + cpf + "' OR "
 						 	+ "usuario2 = '" + cpf + "';";
 			ResultSet rs = stat.executeQuery(sql);
 			while(rs.next()) {
@@ -75,7 +75,7 @@ public class AmizadeDAO extends DAO {
 		boolean status = false;
 		try {
 			Statement stat = connection.createStatement();
-			String sql = 	"SELECT * FROM \"public\".\"Amizade\" WHERE (usuario1 = '" + cpf1 + "' AND " +
+			String sql = 	"SELECT * FROM Amizade WHERE (usuario1 = '" + cpf1 + "' AND " +
 							"usuario2 = '" + cpf2 + "') OR (usuario1 = '" + cpf2 + "' AND usuario2 = '" + cpf1 + "')";
 			ResultSet rs = stat.executeQuery(sql);
 			if(rs.next()) {

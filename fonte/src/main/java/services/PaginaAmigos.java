@@ -19,6 +19,7 @@ public class PaginaAmigos {
 		AmizadeDAO aDao = new AmizadeDAO();
 		
 		Usuario user = contS.recuperarUsuario(Integer.parseInt(req.cookie("key")));
+		String userH = "<h5>" + user.getNome() + " " + user.getSobrenome() + "</h5>";
 		List<Amizade> amigos = aDao.recuperarAmizades(user.getCpf());
 		
 		String page = "";
@@ -31,8 +32,7 @@ public class PaginaAmigos {
 			System.out.println(err.getMessage());
 		}
 		
-		String list = "";
-		list += "<ul>\n";
+		String list = "<div>\n";
 		for(int i = 0; i < amigos.size(); i++) {
 			Usuario amigo = null;
 			if(user.getCpf().equals(amigos.get(i).getUsuario1())) {
@@ -41,9 +41,16 @@ public class PaginaAmigos {
 				amigo = uDao.getUsuario(amigos.get(i).getUsuario1());
 			}
 			
-			list += "<li>" + amigo.getNome() + " " + amigo.getSobrenome() + "</li>\n";
+			String ul = "<div class=\"amigo-grupo\">\n";
+			ul += "<div>\n";
+			ul += "<i class=\"fa-solid fa-user\"></i>\n";
+			ul += "<h4 class=\"amigo-nome\">" + amigo.getNome() + " " + amigo.getSobrenome() + "</h4>\n";
+			ul += "</div>\n</div>\n";
+			list += ul;
 		}
-		list += "</ul>\n";
+		list += "</div>\n";
+		page = page.replaceFirst("<LOGIN-BUTTON>", "<li class=\"nav-item\"><a id=\"user-view\"><i class=\"fa-solid fa-circle-user\"></i></a></li>");
+		page = page.replaceFirst("<USER-NAME>", userH);
 		page = page.replace("<LISTA-AMIGOS>", list);
 		return page;
 	}
