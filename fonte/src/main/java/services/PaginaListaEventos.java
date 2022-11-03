@@ -43,10 +43,10 @@ public class PaginaListaEventos {
 			cards[i] = "";
 			cards[i] += "<div class=\"col-md-3 card-custom\">\n";
 			cards[i] += "<h1>" + eventos.get(i).getNome() + "</h1>\n";
-            cards[i] += "<h5 class=\"text-primary\">Tipo: " + (eventos.get(i).getPrivacidade() ? "PÃºblico" : "Privado") + "</h5>\n";
-            cards[i] += "<h3>DescriÃ§Ã£o:</h3>\n";
+            cards[i] += "<h5 class=\"text-primary\">Tipo: " + (eventos.get(i).getPrivacidade() ? "Público" : "Privado") + "</h5>\n";
+            cards[i] += "<h3>Descrição:</h3>\n";
             cards[i] += "<p class=\"text-dark\">" + eventos.get(i).getDescricao() + "</p>\n";
-            cards[i] += "<a href=\"/evento/"+ eventos.get(i).getId() +"\" class=\"btn btn-outline-light btn-custom\">Mais informaÃ§Ãµes</a>\n";
+            cards[i] += "<a href=\"/evento/"+ eventos.get(i).getId() +"\" class=\"btn btn-outline-light btn-custom\">Mais informações</a>\n";
             cards[i] += "</div>\n";
             
             div += cards[i];
@@ -54,6 +54,9 @@ public class PaginaListaEventos {
 		div += "</div>\n";
 		
 		page = page.replaceFirst("<CARDS>", div);
+		
+		//se não houver recomendações
+		page = page.replaceFirst("<CARDS-REC>", "<h3>Não há recomendações.</h3>");
 		return page;
 	}
 }

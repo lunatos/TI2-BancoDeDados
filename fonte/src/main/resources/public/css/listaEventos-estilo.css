@@ -67,8 +67,16 @@ h1,p{
 
 
 /*Eventos*/
+#Recomendados{
+   padding-top: 75px;
+   background-color: #fff;
+}
+.fa-star{
+	font-size: 2em;
+	color: #f5ad14;
+}
 #Eventos{
-    padding: 50px 0px;
+    padding: 25px 0px;
     background-color: #fff;
 }
 .card-custom{
@@ -83,6 +91,37 @@ h1,p{
 .card-custom:hover{
     background-color:#8c99d3;
 }
+
+/* Cards */
+#Recomendados > div{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	border-bottom: 1px solid #8c99d3;
+}
+#Recomendados > div i{
+	margin-right: 15px;
+}
+#Recomendados > h3{
+	font-size: 1.4em;
+	color: grey;
+	text-align: center;
+	margin: 0px;
+	padding: 10px 0px;
+}
+
+#Recomendados > h1{
+	color: #f5ad14;
+    margin: 10vh 0vw 0vh;
+    text-align: center;
+    padding-bottom: 20px;
+}
+#Recomendados div h1{
+	color: #f5ad14;
+	margin: 20px 0px 10px;
+	text-align: center;
+}
+
 #Eventos > h1{
     color: #50238f;
     margin: 10vh 0vw 0vh;
