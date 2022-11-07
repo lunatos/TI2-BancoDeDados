@@ -161,6 +161,10 @@ public class ControleEvento extends DAO{
 		return usuarios;
 	}
 	
+	/**
+	 * Recupera todos os eventos onde o usuário é um participante
+	 * @param cpf - identificador do usuário
+	 * */
 	public List<Evento> recuperarEventosDaPessoa(String cpf){
 		List<Evento> eventos = new ArrayList<Evento>();
 		EventoDAO eDao = new EventoDAO();

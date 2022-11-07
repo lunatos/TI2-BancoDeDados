@@ -141,6 +141,10 @@ public class EventoDAO extends DAO {
 		return lista;
 	}
 	
+	/**
+	 * Recupera todos os eventos onde o usuário é o dono
+	 * @param cpf - Identificador do usuário
+	 * */
 	public List<Evento> getAllEventosPessoa(String cpf){
 		List<Evento> lista = new ArrayList<Evento>();
 		

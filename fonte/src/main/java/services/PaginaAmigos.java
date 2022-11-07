@@ -15,12 +15,15 @@ public class PaginaAmigos {
 	
 	public static String criarPaginaAmigos(Request req, Response res) {
 		ControleSessao contS = new ControleSessao();
+		EventoDAO eDao = new EventoDAO();
 		UsuarioDAO uDao = new UsuarioDAO();
 		AmizadeDAO aDao = new AmizadeDAO();
 		
 		Usuario user = contS.recuperarUsuario(Integer.parseInt(req.cookie("key")));
 		String userH = "<h5>" + user.getNome() + " " + user.getSobrenome() + "</h5>";
+		
 		List<Amizade> amigos = aDao.recuperarAmizades(user.getCpf());
+		List<Evento> meusEventos = eDao.getAllEventosPessoa(user.getCpf());
 		
 		String page = "";
 		try {
@@ -43,9 +46,17 @@ public class PaginaAmigos {
 			
 			String ul = "<div class=\"amigo-grupo\">\n";
 			ul += "<div>\n";
+			ul += "<div class=\"amigo-info\">\n";
 			ul += "<i class=\"fa-solid fa-user\"></i>\n";
 			ul += "<h4 class=\"amigo-nome\">" + amigo.getNome() + " " + amigo.getSobrenome() + "</h4>\n";
 			ul += "</div>\n</div>\n";
+			ul += "<div class=\"amigo-convites\">\n<ul>\n";
+			//criando convites para os amigos
+			for(int j = 0; j < meusEventos.size(); j++) {
+				ul += "<li><div>Convidar para: " + meusEventos.get(j).getNome() + "</div>" + "<div><a href=\"/entrarEvento/" + meusEventos.get(j).getId() +"\"><i class=\"fa-solid fa-person-circle-plus\"></i></a>" +"</div></li>";
+			}
+			ul += "</ul></div>\n";
+			ul += "</div>\n";
 			list += ul;
 		}
 		list += "</div>\n";

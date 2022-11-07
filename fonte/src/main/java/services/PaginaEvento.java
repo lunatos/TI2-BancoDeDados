@@ -65,7 +65,22 @@ public class PaginaEvento {
 			page = page.replaceFirst("<BOTAO-PARTICIPAR>", "<a href=\"/entrarEvento/" + e.getId() + "\" class=\"btn btn-custom\">Participar</a>");
 			page = page.replaceFirst("<LINK-CHAT>", linkChat);
 			page = page.replaceFirst("<LINK-CONFIRMADOS>", linkConfirmados);
+		}else {
+			//checa se é o criador do evento ou está participando do evento
+			if(contE.checarParticipacao(e.getId(), u.getCpf())) {
+				System.out.println("Está participando do evento privado");
+				page = page.replaceFirst("<BOTAO-PARTICIPAR>", "<a href=\"/entrarEvento/" + e.getId() + "\" class=\"btn btn-custom\">Participar</a>");
+				page = page.replaceFirst("<LINK-CHAT>", linkChat);
+				page = page.replaceFirst("<LINK-CONFIRMADOS>", linkConfirmados);
+			}
+			else if(e.getDono().equals(u.getCpf())) {
+				System.out.println("É o dono");
+				page = page.replaceFirst("<BOTAO-PARTICIPAR>", "<a href=\"/entrarEvento/" + e.getId() + "\" class=\"btn btn-custom\">Participar</a>");
+				page = page.replaceFirst("<LINK-CHAT>", linkChat);
+				page = page.replaceFirst("<LINK-CONFIRMADOS>", linkConfirmados);
+			}
 		}
+		
 		
 		//cria a lista de participantes
 		String listaPartic = "";
