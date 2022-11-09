@@ -10,12 +10,14 @@ import spark.Request;
 import spark.Response;
 
 import dao.*;
+import ia.RecomendadorEventos;
 import models.*;
 
 public class PaginaListaEventos {
 	
 	public static String createListaEventos(Request req, Response res) {
 		//criando a pagina
+		ControleEvento contE = new ControleEvento();
 		ControleSessao contr = new ControleSessao();
 		Usuario user = contr.recuperarUsuario(Integer.parseInt(req.cookie("key")));
 		
@@ -55,8 +57,55 @@ public class PaginaListaEventos {
 		
 		page = page.replaceFirst("<CARDS>", div);
 		
-		//se não houver recomendações
-		page = page.replaceFirst("<CARDS-REC>", "<h3>Não há recomendações.</h3>");
+		//--- recomendações ---
+		
+		List<Evento> eventosUsuario = contE.recuperarEventosDaPessoa(user.getCpf());
+		List<Evento> naoParticipa = new ArrayList<Evento>();
+		
+		//recupera os eventos que o usuario nao participa
+		for(int i = 0; i < eventos.size(); i++) {
+			boolean repetido = false;
+			for(int j = 0; j < eventosUsuario.size(); j++) {
+				if(eventos.get(i).getId() == eventosUsuario.get(j).getId()) {
+					repetido = true;
+				}
+			}
+			if(!repetido) {
+				naoParticipa.add(eventos.get(i));
+			}
+		}
+		
+		//se não houver eventos
+		if(naoParticipa.size() == 0) {			
+			page = page.replaceFirst("<CARDS-REC>", "<h3>Não há recomendações.</h3>");
+		}else {
+			int recomend = 0;
+			String rDiv = "<div class=\"recommend-group\">\n";
+			for(int i = 0; i < naoParticipa.size(); i++) {
+				if(recomend >= 3) break;
+				
+				double similaridade = RecomendadorEventos.verificarSimilaridade(naoParticipa.get(i), eventosUsuario);
+				double amigos = RecomendadorEventos.verificarPessoas(naoParticipa.get(i), eventosUsuario);
+				
+				if(similaridade > 0.7 || amigos > 0.7) {
+					rDiv += "<div class=\"col-md-3 card-custom-recommend\">\n";
+					rDiv += "<h1>" + naoParticipa.get(i).getNome() + "</h1>\n";
+		            rDiv += "<h5 class=\"text-primary\">Tipo: " + (naoParticipa.get(i).getPrivacidade() ? "Público" : "Privado") + "</h5>\n";
+		            rDiv += "<h3>Descrição:</h3>\n";
+		            rDiv += "<p class=\"text-dark\">" + naoParticipa.get(i).getDescricao() + "</p>\n";
+		            rDiv += "<a href=\"/evento/"+ naoParticipa.get(i).getId() +"\" class=\"btn btn-outline-light btn-custom-recommend\">Mais informações</a>\n";
+		            rDiv += "</div>\n";
+		            recomend++;
+				}
+			}
+			
+			if(recomend <= 0) {
+				page = page.replaceFirst("<CARDS-REC>", "<h3>Não há recomendações.</h3>");
+			}else {
+				page = page.replaceFirst("<CARDS-REC>", rDiv);
+			}
+		}
+		
 		return page;
 	}
 }

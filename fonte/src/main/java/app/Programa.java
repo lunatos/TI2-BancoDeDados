@@ -12,14 +12,14 @@ public class Programa {
 		staticFiles.location("/public");
 		port(4567);
 		
-		//PÁGINA PRINCIPAL
+		//PÃ�GINA PRINCIPAL
 		//--------------------------------------------------------------------------------+
 		
-		//raiz, página principal do site
+		//raiz, pÃ¡gina principal do site
 		get("/", (req, res) -> HomeService.buildHomepage(req, res));
 		
 		
-		//LOGIN E CONTROLE DE SESSÃO
+		//LOGIN E CONTROLE DE SESSÃƒO
 		//--------------------------------------------------------------------------------+
 		
 		//pagina de login do site
@@ -59,7 +59,7 @@ public class Programa {
 		});
 		
 		
-		//CADASTRO DE USUÁRIOS
+		//CADASTRO DE USUÃ�RIOS
 		//--------------------------------------------------------------------------------+
 		
 		//pagina de cadastro de usuario
@@ -80,7 +80,7 @@ public class Programa {
 		
 		//pagina para criacao de eventos
 		get("/criarEvento", (req, res) -> {
-			//testa se o usuário está logado
+			//testa se o usuÃ¡rio estÃ¡ logado
 			ControleSessao cont = new ControleSessao();
 			boolean status = cont.validarSessao(req, res);
 			cont.disconnect();
@@ -104,7 +104,7 @@ public class Programa {
 		
 		//requisicao para participar de um evento
 		get("/entrarEvento/:id", (req, res) ->{
-			//testa se o usuário está logado
+			//testa se o usuÃ¡rio estÃ¡ logado
 			ControleSessao cont = new ControleSessao();
 			boolean status = cont.validarSessao(req, res);
 			cont.disconnect();
@@ -121,12 +121,22 @@ public class Programa {
 			return null;
 		});
 		
+		//adiciona um participante a um evento por meio de um convite
+		get("/convite/:cpf", (req, res) -> {
+			try {
+				EventoService.convidarParaEvento(req, res);
+			}catch(Exception err) {
+				System.out.println(err.getMessage());
+			}
+			return null;
+		});
+		
 		//CHAT DOS EVENTOS
 		//--------------------------------------------------------------------------------+
 		
 		//pagina do chat do evento
 		get("/chat/:id", (req, res) -> {
-			//testa se o usuário está logado
+			//testa se o usuÃ¡rio estÃ¡ logado
 			ControleSessao cont = new ControleSessao();
 			boolean status = cont.validarSessao(req, res);
 			cont.disconnect();
@@ -151,7 +161,7 @@ public class Programa {
 		
 		//pagina da agenda do usuario
 		get("/agenda", (req, res) -> {
-			//testa se o usuário está logado
+			//testa se o usuÃ¡rio estÃ¡ logado
 			ControleSessao cont = new ControleSessao();
 			boolean status = cont.validarSessao(req, res);
 			cont.disconnect();
@@ -169,7 +179,7 @@ public class Programa {
 		
 		//pagina que lista todos os eventos
 		get("/listaEventos", (req, res) -> {
-			//testa se o usuário está logado
+			//testa se o usuÃ¡rio estÃ¡ logado
 			ControleSessao cont = new ControleSessao();
 			boolean status = cont.validarSessao(req, res);
 			cont.disconnect();
@@ -184,7 +194,7 @@ public class Programa {
 		
 		//pagina que lista os eventos criados pelo usuario
 		get("/meusEventos", (req, res) -> {
-			//testa se o usuário está logado
+			//testa se o usuÃ¡rio estÃ¡ logado
 			ControleSessao cont = new ControleSessao();
 			boolean status = cont.validarSessao(req, res);
 			cont.disconnect();

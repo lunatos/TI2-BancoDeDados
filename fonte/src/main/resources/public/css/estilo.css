@@ -2,10 +2,16 @@ html,body,#home{
     height: 100%;
     overflow-x: hidden;
 }
+#home{
+	background-image: url('../img/concert-3084876_1920.png');
+    background-repeat: no-repeat;
+ 	background-size: 100vw 100vh;
+ 	background-color: linear-gradient(50deg, #8c99d3, #50238f);
+}
 body{
     background: linear-gradient(50deg, #8c99d3, #50238f);
     background-attachment: fixed;
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: Arial, Helvetica, sans-serif;  
 }
 /*Classes gerais*/
 .capa{

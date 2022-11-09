@@ -20,6 +20,12 @@ body{
     background-color: #50238f;
     border-radius: 20px;
 }
+.btn-custom-recommend{
+    margin: 10px 0;
+    padding: 10;
+    background-color: #f5ad14;
+    border-radius: 20px;
+}
 .btn-custom:hover{
     background-color: #5b4891;
     color: white;
@@ -88,6 +94,15 @@ h1,p{
     margin-right: 10px;
     transition: background-color 2s ease-out;
 }
+.card-custom-recommend{
+    border: 2px solid #f5b042;
+    box-shadow: 2px 5px #f5b042 ;
+    border-radius: 10px ;
+    margin-bottom: 10px;
+    margin-left: 10px;
+    margin-right: 10px;
+    transition: background-color 2s ease-out;
+}
 .card-custom:hover{
     background-color:#8c99d3;
 }
@@ -97,7 +112,6 @@ h1,p{
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	border-bottom: 1px solid #8c99d3;
 }
 #Recomendados > div i{
 	margin-right: 15px;
@@ -110,21 +124,18 @@ h1,p{
 	padding: 10px 0px;
 }
 
-#Recomendados > h1{
+#Recomendados h1{
 	color: #f5ad14;
-    margin: 10vh 0vw 0vh;
     text-align: center;
-    padding-bottom: 20px;
 }
-#Recomendados div h1{
-	color: #f5ad14;
-	margin: 20px 0px 10px;
+#Recomendados .recommend-title{
+	margin: 20px 0px 40px;
 	text-align: center;
+	border-bottom: 1px solid #8c99d3;
 }
 
 #Eventos > h1{
     color: #50238f;
-    margin: 10vh 0vw 0vh;
     text-align: center;
     padding-bottom: 20px;
     border-bottom: 1px solid #8c99d3;

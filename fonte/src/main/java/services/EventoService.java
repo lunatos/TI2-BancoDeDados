@@ -66,6 +66,29 @@ public class EventoService {
 		res.redirect("/");
 	}
 	
+	public static void convidarParaEvento(Request req, Response res) throws Exception {
+		ControleEvento contE = new ControleEvento();
+		UsuarioDAO uDao = new UsuarioDAO();
+		EventoDAO eDao = new EventoDAO();
+		
+		Usuario u = uDao.getUsuario(req.params("cpf"));
+		int eventoId = Integer.parseInt(req.queryParams("evento"));
+		Evento e = eDao.getEvento(eventoId);
+		
+		//checa se o usuario nao esta participando do evento
+		if(!contE.checarParticipacao(eventoId, u.getCpf())) {		
+			contE.adicionarRelacao(eventoId, u.getCpf());
+			e.addParticipante();
+			eDao.updateEvento(e);
+			
+			u = null;
+			eDao.disconnect();
+			contE.disconnect();
+			
+		}
+		res.redirect("/");
+	}
+	
 	public static void atualizarEvento(Request req, Response res) {
 		EventoDAO eDao = new EventoDAO();
 		Evento e = eDao.getEvento(Integer.parseInt(req.params("id")));

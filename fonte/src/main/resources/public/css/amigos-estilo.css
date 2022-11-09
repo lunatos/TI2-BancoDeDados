@@ -117,11 +117,11 @@ h1,p{
 	display: flex;
 }
 .amigo-grupo .amigo-convites{
-	background-color: purple;
-	border: 2px solid grey;
-	color: white;
+	background-color: #dadada;
+	border-bottom: 2px solid #8000ff;
+	color: black;
 	padding: 10px;
-	border-radius: 10px;
+	border-radius: 5px;
 }
 .amigo-convites ul{
 	padding: 0px;
@@ -135,6 +135,7 @@ h1,p{
 .amigo-convites li i{
 	margin-left: 10px;
 	font-size: 1.2em;
+	color: #0080ff;
 }
 .fa-user{
 	font-size: 1.1em;

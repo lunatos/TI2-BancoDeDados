@@ -54,7 +54,8 @@ public class PaginaAgenda {
 		agenda = "<div class=\"agenda\">\n";
 		for(int i = 0; i < eventos.size(); i++) {
 			String data = eventos.get(i).getData();
-			data = data.replaceAll("-", "/");
+			String[] dataParts = data.split("-");
+			data = dataParts[2] + "/" + dataParts[1] + "/" + dataParts[0];
 			
 			String tmp = "<div class=\"data-grupo\">\n";
 			tmp += "<h2>" + data + "</h2>\n";

@@ -45,7 +45,8 @@ public class PaginaEvento {
 		String linkConfirmados = "<a href=\"/confirmados/" + e.getId() + "\" class=\"btn btn-custom\">Lista de confirmados</a>";
 		String desc = e.getDescricao();
 		String data = e.getData();
-		data = data.replaceAll("-", "/");
+		String[] dataParts = data.split("-");
+		data = dataParts[2] + "/" + dataParts[1] + "/" + dataParts[0];
 		String hora = e.getHorario();
 		String local = e.getEndereco();
 		String count = "" + e.getQtdParticipantes() + "/" + e.getMaxParticipantes();

@@ -53,7 +53,7 @@ public class PaginaAmigos {
 			ul += "<div class=\"amigo-convites\">\n<ul>\n";
 			//criando convites para os amigos
 			for(int j = 0; j < meusEventos.size(); j++) {
-				ul += "<li><div>Convidar para: " + meusEventos.get(j).getNome() + "</div>" + "<div><a href=\"/entrarEvento/" + meusEventos.get(j).getId() +"\"><i class=\"fa-solid fa-person-circle-plus\"></i></a>" +"</div></li>";
+				ul += "<li><div>Convidar para: " + meusEventos.get(j).getNome() + "</div>" + "<div><a href=\"/convite/" + amigo.getCpf() +"?evento=" + meusEventos.get(j).getId() +"\"><i class=\"fa-solid fa-person-circle-plus\"></i></a>" +"</div></li>";
 			}
 			ul += "</ul></div>\n";
 			ul += "</div>\n";
